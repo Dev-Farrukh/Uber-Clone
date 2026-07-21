@@ -1,8 +1,10 @@
+/* eslint-disable no-undef */
 import "dotenv/config"
 
 const ALL_KEYS = [
     "MONGO_URI",
     "PORT",
+    "JWT_SECRET",
 ]
 
 ALL_KEYS.map((key)=> {
