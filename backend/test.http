@@ -1,20 +1,13 @@
-POST http://localhost:3000/api/auth/login
+
+
+POST http://localhost:3000/api/user/register
 Content-Type: application/json
 
 {
-  "email": "johndoe14@example.com",
+  "fullName": {
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "email": "johndoe15@example.com",
   "password": "securePassword123"
 }
-
-
-# POST http://localhost:3000/api/auth/register
-# Content-Type: application/json
-
-# {
-#   "fullName": {
-#     "firstName": "John",
-#     "lastName": "Doe"
-#   },
-#   "email": "johndoe14@example.com",
-#   "password": "securePassword123"
-# }

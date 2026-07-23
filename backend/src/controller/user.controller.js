@@ -1,4 +1,5 @@
 import userModel from "../model/user.model.js";
+import blacklistModel from "../model/blacklisted.tokens.js"
 import {validationResult} from "express-validator"
 import createUser from "../services/createUser.js";
 
@@ -39,7 +40,6 @@ export const loginUser = async (req , res) => {
     if (!user) {
         return res.status(400).json({ message: "Invalid email or password" });
     }
-    console.log(user , password);
     
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
@@ -47,5 +47,29 @@ export const loginUser = async (req , res) => {
     }
 
     const token = user.generateAuthToken();
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none'  
+    });        
     return res.status(200).json({ message: "Login successful", user: user.fullName, token });
+}
+
+export const logoutUser = async (req, res) => {
+    const token = req.cookies?.token ||req.headers.authorization?.split(" ")[1];
+
+    if(token) { await blacklistModel.create({token}) }
+
+    res.clearCookie("token");
+
+    res.status(200).json({ message: "Logout successful" });
+
+}
+
+export const getUserProfile = async (req, res) => {
+    const user = req.user;
+    if(!user){
+        res.status(400).json({message : "Unauthorized"})
+    }
+    return res.status(200).json({user})
 }
