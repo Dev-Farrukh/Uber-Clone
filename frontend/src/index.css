@@ -6,8 +6,10 @@ body {
 }
 @font-face {
   font-family: "poppins";
-  src: url("/frontend/src/assets/Poppins/Poppins-Regular.ttf");
+  src: url("src/assets/Poppins/Poppins-Regular.ttf");
 }
 .font-poppins {
   font-family: "poppins";
 }
+
+/* #EDAF10 */

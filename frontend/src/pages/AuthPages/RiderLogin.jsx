@@ -1,15 +1,14 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { Eye, EyeOff } from 'lucide-react';
 import toast from "react-hot-toast";
 
-const UserLogin = () => {
+const RiderLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -17,9 +16,8 @@ const UserLogin = () => {
     try {
       setLoading(true)
       const response = await axios.post(import.meta.env.VITE_BASE_URL + 'user/login', payload, { withCredentials: true })
-      console.log("Hello ", response.data.user.firstName)
-      toast.success(`Hello ${response.data.user.firstName} `)
-      navigate("/")
+      toast.success("Hello ", response.data.user.fullName.firstName)
+      console.log("Hello ", response.data)
 
     } catch (error) {
       console.log("error", error?.response?.data)
@@ -38,8 +36,8 @@ const UserLogin = () => {
       setLoading(false)
     }
 
-    setEmail('')
-    setPassword('')
+    // setEmail('')
+    // setPassword('')
   }
   return (
     <div className="flex flex-col justify-around min-h-dvh bg-gray-100 font-poppins lg:justify-center lg:px-6">
@@ -65,4 +63,4 @@ const UserLogin = () => {
   )
 }
 
-export default UserLogin
+export default RiderLogin
