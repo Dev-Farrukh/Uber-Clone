@@ -14,7 +14,7 @@ router.post("/register" , [
      body('vehicle.color').notEmpty().isLength({min : 3}).withMessage("Color must be at least 3 characters long"),
      body('vehicle.plate').notEmpty().isLength({min : 3}).withMessage("Plate must be at least 3 characters long"),
      body('vehicle.capacity').notEmpty().isInt({min : 1}).withMessage("Capacity must be a positive integer"),
-     body('status').notEmpty().isIn(["active" , "inactive"]).withMessage("Status must be either active or inactive"),
+     body('status').optional().isIn(["active" , "inactive"]).withMessage("Status must be either active or inactive"),
      body('socketId').optional().isString().withMessage("Socket ID must be a string"),
      body('location.longitude').optional().isFloat().withMessage("Longitude must be a number"),
      body('location.latitude').optional().isFloat().withMessage("Latitude must be a number")
