@@ -1,7 +1,13 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const Start = () => {
-  return (
+    const navigate = useNavigate()
+    const handleGo = () => {
+        localStorage.setItem("visited", "true")
+        navigate("/login")
+    }
+
+    return (
     <main className="min-h-dvh flex flex-col items-center justify-center px-6 pt-10 text-center gap-8 md:gap-10 lg:gap-10">
 
     {/* Ride Image */}
@@ -33,6 +39,7 @@ const Start = () => {
             hover:scale-110 hover:bg-[#dea922]
             active:scale-95
             shadow-md hover:shadow-xl"
+            onClick={handleGo}
         >
             Go
         </Link>

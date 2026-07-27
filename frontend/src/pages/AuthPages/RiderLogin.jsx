@@ -1,24 +1,29 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Eye, EyeOff } from 'lucide-react';
 import toast from "react-hot-toast";
+import { MainContext } from "../Context/Context";
 
 const RiderLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false)
+  const {setRider} = useContext(MainContext)
+
   const navigate = useNavigate()
 
   const submitHandler = async (e) => {
     e.preventDefault();
     const payload = { email, password }
+    
     try {
       setLoading(true)
       const response = await axios.post(import.meta.env.VITE_BASE_URL + 'rider/login', payload, { withCredentials: true })
-      toast.success(`Hello ${response.data.rider.fullName.firstName}`)
-      navigate("/")
+      localStorage.setItem("token" , response.data.token)
+      setRider(response?.data?.rider)
+      navigate("/home")
 
     } catch (error) {
       console.log("error", error)

@@ -5,18 +5,34 @@ import Start from "../pages/AuthPages/Start"
 import RiderRegister from "../pages/AuthPages/RiderRegister"
 import RiderLogin from "../pages/AuthPages/RiderLogin"
 import Home from "../pages/Main/Home"
+import UserProtected from "../pages/Protected/UserProtected"
+import RiderProtected from "../pages/Protected/RiderProtected"
+import UserLogout from "../pages/AuthPages/UserLogout"
+import RiderLogout from "../pages/AuthPages/RiderLogout"
 
 const Router = () => {
-	return (
+    const visited = localStorage.getItem("visited") === "true"
+
+    return (
         <Routes>
-            <Route path="/" element={<Home />} />
+            { <Route path="/" element={visited ? <UserLogin /> : <Start />} /> }
+
             <Route path="/login" element={<UserLogin />} />
-            <Route path="/register" element={<UserRegister  />} />
-            <Route path="/rider-register" element={<RiderRegister  />} />
+            <Route path="/register" element={<UserRegister />} />
+            <Route path="/rider-register" element={<RiderRegister />} />
             <Route path="/rider-login" element={<RiderLogin />} />
-            <Route path="/start" element={<Start  />} />
+            {/* Protected  User*/}
+            <Route element={<UserProtected />} >
+                <Route path="/logout" element={<UserLogout />} />
+            </Route>
+            {/* Protected  Rider*/}
+            <Route element={<RiderProtected />}>
+                <Route path="/home" element={<Home />} />
+                <Route path="/rider-logout" element={<RiderLogout />} />
+            </Route>
         </Routes>
-	)
+
+    )
 }
 
 export default Router

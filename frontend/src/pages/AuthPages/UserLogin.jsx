@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Eye, EyeOff } from 'lucide-react';
 import toast from "react-hot-toast";
+import { MainContext } from "../Context/Context";
 
 const UserLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false)
+  const {setUser} = useContext(MainContext)
   const navigate = useNavigate()
 
   const submitHandler = async (e) => {
@@ -17,12 +19,14 @@ const UserLogin = () => {
     try {
       setLoading(true)
       const response = await axios.post(import.meta.env.VITE_BASE_URL + 'user/login', payload, { withCredentials: true })
-      console.log("Hello ", response.data.user.firstName)
-      toast.success(`Hello ${response.data.user.firstName} `)
-      navigate("/")
+      // Path : console.log("Hello ", response.data.user) 
+      localStorage.setItem("token" , response.data.token)
+
+      setUser(response?.data?.user)
+      navigate("/home")
 
     } catch (error) {
-      console.log("error", error?.response?.data)
+      console.log("error", error?.response?.data || error)
       const data = error.response?.data;
 
       let message = "Login Failed";
