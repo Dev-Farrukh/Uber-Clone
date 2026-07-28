@@ -22,12 +22,12 @@ const Router = () => {
             <Route path="/rider-register" element={<RiderRegister />} />
             <Route path="/rider-login" element={<RiderLogin />} />
             {/* Protected  User*/}
+                <Route path="/home" element={<Home />} />
             <Route element={<UserProtected />} >
                 <Route path="/logout" element={<UserLogout />} />
             </Route>
             {/* Protected  Rider*/}
             <Route element={<RiderProtected />}>
-                <Route path="/home" element={<Home />} />
                 <Route path="/rider-logout" element={<RiderLogout />} />
             </Route>
         </Routes>
