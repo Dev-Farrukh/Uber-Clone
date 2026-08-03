@@ -12,7 +12,7 @@ const VehiclePanel = ({ panelStates }) => {
       <div className=" overflow-auto py-1 my-4">
 
         <div className="flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4   ">
-          <img src={'src/assets/images/bike.png'}
+          <img src={'/src/assets/images/bike.png'}
             alt="Bike"
             className="w-[30%] object-contain pr-2  "
           />
