@@ -1,0 +1,1 @@
+export const headingStyle = "text-xl md:text-2xl text-gray-800 font-semibold";

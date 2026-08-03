@@ -4,11 +4,11 @@ import UserRegister from "../pages/AuthPages/UserRegister"
 import Start from "../pages/AuthPages/Start"
 import RiderRegister from "../pages/AuthPages/RiderRegister"
 import RiderLogin from "../pages/AuthPages/RiderLogin"
-import Home from "../pages/Main/Home"
 import UserProtected from "../pages/Protected/UserProtected"
 import RiderProtected from "../pages/Protected/RiderProtected"
 import UserLogout from "../pages/AuthPages/UserLogout"
 import RiderLogout from "../pages/AuthPages/RiderLogout"
+import Home from "../pages/Main/User/Home"
 
 const Router = () => {
     const visited = localStorage.getItem("visited") === "true"
@@ -22,8 +22,8 @@ const Router = () => {
             <Route path="/rider-register" element={<RiderRegister />} />
             <Route path="/rider-login" element={<RiderLogin />} />
             {/* Protected  User*/}
-            <Route element={<UserProtected />} >
                  <Route path="/home" element={<Home />} />
+            <Route element={<UserProtected />} >
                 <Route path="/logout" element={<UserLogout />} />
             </Route>
             {/* Protected  Rider*/}

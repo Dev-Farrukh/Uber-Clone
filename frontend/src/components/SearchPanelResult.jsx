@@ -1,5 +1,6 @@
 import { ChevronDown, MapPin } from "lucide-react"
 import { useState } from "react"
+import { headingStyle } from "../utils/classes"
 
 const SearchPanelResult = ({ panelStates }) => {
   const [pickup, setPickup] = useState('')
@@ -7,7 +8,7 @@ const SearchPanelResult = ({ panelStates }) => {
   return (
     <>
       <div className="flex justify-between items-center">
-        <h1 className="font-semibold text-xl md:text-2xl text-gray-800">Choose your location</h1>
+        <h1 className={headingStyle}>Choose your location</h1>
         {panelStates.panelOpen && <ChevronDown onClick={() => panelStates.setPanelOpen(false)} className="cursor-pointer text-gray-600 hover:text-black transition-colors" />}
       </div>
 
@@ -65,10 +66,12 @@ const SearchPanelResult = ({ panelStates }) => {
         <section className="flex gap-4 flex-col overflow-auto h-[70%]">
           {
             [...Array(7)].map((index) => {
-              return <div className="flex gap-4 items-center rounded-md bg-gray-200 p-2 justify-betweeen " key={index}>
+              return <div className="flex gap-4 items-center rounded-md bg-gray-100  p-2 py-3 justify-betweeen border-2 border-gray-400 active:border-black hover:bg-gray-200 cursor-pointer"
+              onClick={()=>{panelStates.setVehiclePanelOpen(true) ; panelStates.setPanelOpen(false)}} 
+              key={index}>
                 <MapPin size={25}  className="flex-1"/>
-                <div className="flex-5">
-                  <h3 className="text-sm font-semibold">St Garden , Street No 256 , San Fransicso  Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo nam quasi sit.  </h3>
+                <div className="flex-8">
+                  <h3 className="text-sm font-semibold">St Garden , Street No 256 , San Fransicso  Lorem ipsum dolor sit amet consectetur   </h3>
                   <p className="text-xs"></p>
                 </div>
               </div>
