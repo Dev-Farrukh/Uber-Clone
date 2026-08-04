@@ -1,6 +1,6 @@
 import { ChevronDown, MapPin } from "lucide-react"
 import { useState } from "react"
-import { headingStyle } from "../utils/classes"
+import { headingStyle , buttonStyle } from "../utils/classes"
 
 const SearchPanelResult = ({ panelStates }) => {
   const [pickup, setPickup] = useState('')
@@ -56,7 +56,7 @@ const SearchPanelResult = ({ panelStates }) => {
 
         {pickup && destination ? (
           <button
-            className="py-3 px-4 bg-[#edaf10] hover:bg-[#dea922] transition-all duration-200 ease-in-out text-white font-medium rounded-lg shadow-md hover:shadow-lg active:scale-[0.99]">
+            className={buttonStyle}>
             Find rides
           </button>
         ) : null}

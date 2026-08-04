@@ -11,10 +11,12 @@ const VehiclePanel = ({ panelStates }) => {
       {/* Options Section */}
       <div className=" overflow-auto py-1 my-4">
 
-        <div className="flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4   ">
+        <div onClick={()=>{panelStates.setConfirmRideOpen(true)}}
+         className="flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4   cursor-pointer">
           <img src={'/src/assets/images/bike.png'}
             alt="Bike"
-            className="w-[30%] object-contain pr-2  "
+            className="w-[30%] object-contain pr-2"
+            fetchPriority="high"
           />
           <div className="flex flex-col flex-3">
             <div className="flex gap-1 pt-2">
@@ -29,7 +31,8 @@ const VehiclePanel = ({ panelStates }) => {
           <h3 className="flex-2 text-lg font-bold">Rs 400.45</h3>
         </div>
 
-        <div className="flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4   ">
+        <div onClick={()=>{panelStates.setConfirmRideOpen(true)}}
+         className="flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4   cursor-pointer">
           <img src={'src/assets/images/auto.png'}
             alt="Auto"
             className="w-[30%] object-contain pr-2  "
@@ -47,7 +50,8 @@ const VehiclePanel = ({ panelStates }) => {
           <h3 className="flex-2 text-lg font-bold">Rs 400.45</h3>
         </div>
 
-        <div className="flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4   ">
+        <div onClick={()=>{panelStates.setConfirmRideOpen(true)}}
+         className="flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4   cursor-pointer">
           <img src="https://imgs.search.brave.com/5dI1XjS7et0fBxAWF_crbf9sSiDgNk2YKJLK8PGvA5o/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2E3LzQ0/L2JiL2E3NDRiYjY2/NDBjOTg1Y2Y3MjM5/NWFlN2M2MWYzZWVk/LmpwZw"
             alt="Car"
             className="w-[30%] object-contain   "

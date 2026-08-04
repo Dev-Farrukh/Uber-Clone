@@ -1,1 +1,2 @@
 export const headingStyle = "text-xl md:text-2xl text-gray-800 font-semibold";
+export const buttonStyle  = "py-3 px-4 bg-[#edaf10] hover:bg-[#dea922] transition-all duration-200 ease-in-out text-white font-medium rounded-lg shadow-md hover:shadow-lg active:scale-[0.99]"
