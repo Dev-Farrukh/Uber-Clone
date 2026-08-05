@@ -65,7 +65,7 @@ const SearchPanelResult = ({ panelStates }) => {
       {panelStates.panelOpen && (
         <section className="flex gap-4 flex-col overflow-auto h-[70%]">
           {
-            [...Array(7)].map((index) => {
+            [...Array(7)].map((_,index ) => {
               return <div className="flex gap-4 items-center rounded-md bg-gray-100  p-2 py-3 justify-betweeen border-2 border-gray-400 active:border-black hover:bg-gray-200 cursor-pointer"
               onClick={()=>{panelStates.setVehiclePanelOpen(true) ; panelStates.setPanelOpen(false)}} 
               key={index}>

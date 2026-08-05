@@ -51,7 +51,7 @@ const VehiclePanel = ({ panelStates }) => {
         </div>
 
         <div onClick={()=>{panelStates.setConfirmRideOpen(true)}}
-         className="flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4   cursor-pointer">
+         className="flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4 cursor-pointer">
           <img src="https://imgs.search.brave.com/5dI1XjS7et0fBxAWF_crbf9sSiDgNk2YKJLK8PGvA5o/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2E3LzQ0/L2JiL2E3NDRiYjY2/NDBjOTg1Y2Y3MjM5/NWFlN2M2MWYzZWVk/LmpwZw"
             alt="Car"
             className="w-[30%] object-contain   "

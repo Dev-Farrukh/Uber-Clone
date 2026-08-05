@@ -9,6 +9,7 @@ import RiderProtected from "../pages/Protected/RiderProtected"
 import UserLogout from "../pages/AuthPages/UserLogout"
 import RiderLogout from "../pages/AuthPages/RiderLogout"
 import Home from "../pages/Main/User/Home"
+import RiderLocation from "../pages/Main/User/RiderLocation"
 
 const Router = () => {
     const visited = localStorage.getItem("visited") === "true"
@@ -23,6 +24,7 @@ const Router = () => {
             <Route path="/rider-login" element={<RiderLogin />} />
             {/* Protected  User*/}
                  <Route path="/home" element={<Home />} />
+                 <Route path="/rider-location" element={<RiderLocation />} />
             <Route element={<UserProtected />} >
                 <Route path="/logout" element={<UserLogout />} />
             </Route>
