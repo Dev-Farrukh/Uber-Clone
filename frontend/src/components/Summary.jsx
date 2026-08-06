@@ -1,7 +1,6 @@
 import { MapPinHouse, MapPinCheckInside, Wallet } from "lucide-react";
 import { buttonStyle } from "../utils/classes";
 const Summary = ({panelStates}) => {
-  
   return (
     <section className="px-4 h-full flex flex-col">
       <div className="flex justify-between py-4 items-center ">
