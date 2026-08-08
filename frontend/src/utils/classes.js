@@ -1,3 +1,3 @@
 export const headingStyle = "text-xl md:text-2xl text-gray-800 font-semibold";
 export const buttonStyle  = "py-3 px-4 bg-[#edaf10] hover:bg-[#dea922] transition-all duration-200 ease-in-out text-white font-medium rounded-lg shadow-md hover:shadow-lg active:scale-[0.99]"
-export const topLogo = "bg-white text-[#edaf10] rounded-full size-10 mx-auto flex items-center justify-center absolute top-4 md:top-6 hover:bg-gray-100 md:left-6 left-4 md:size-14 z-10 outline-none border-2"
+export const topIcon = "bg-white text-[#edaf10] rounded-full size-10 mx-auto flex items-center justify-center absolute top-4 md:top-6 hover:bg-gray-100 md:size-14 z-10 outline-none border-2";

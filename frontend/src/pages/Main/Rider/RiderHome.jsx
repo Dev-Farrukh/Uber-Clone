@@ -4,6 +4,7 @@ import { LogOut } from 'lucide-react';
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import RideAvailable from "../../../components/RideAvailable";
+import { topIcon } from "../../../utils/classes";
 
 
 const RiderHome = () => {
@@ -13,15 +14,14 @@ const RiderHome = () => {
   return (
     <section className="relative h-dvh overflow-hidden bg-gray-100 font-poppins">
      
-       <Link to="/logout" className="bg-white text-[#edaf10] rounded-full size-10 mx-auto flex items-center justify-center absolute top-4 md:top-6 hover:bg-gray-100 right-4 md:size-14 z-10 outline-none border-2 ">
+       <Link to="/logout" className={`${topIcon} right-4 `}>
         <LogOut strokeWidth={2.5}/>
       </Link>
       <img
         src="/src/assets/images/yellow_logo.png"
         alt="Logo"
         fetchPriority="high"
-        className="bg-white text-[#edaf10] rounded-full size-10 mx-auto flex items-center justify-center absolute top-4 md:top-6 hover:bg-gray-100 md:left-6 left-4 md:size-14 z-10 outline-none border-2 "
-        // className="absolute top-4 left-4 w-12 md:w-14 z-10"
+        className={`${topIcon} left-4 md:left-6`}
       />
 
       <div className="absolute inset-0">

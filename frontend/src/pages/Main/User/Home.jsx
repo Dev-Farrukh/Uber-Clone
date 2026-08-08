@@ -5,6 +5,7 @@ import VehiclePanel from "../../../components/VehiclePanel";
 import ConfirmRide from "../../../components/ConfirmRide";
 import LookingForRider from "../../../components/LookingForRider";
 import Summary from "../../../components/Summary";
+import { topIcon } from "../../../utils/classes";
 
 const searchPanel = "absolute bg-white z-20 md:top-6 md:left-6 md:w-105 md:rounded-xl md:shadow-2xl md:p-6";
 const searchPanelOpen = `${searchPanel} top-0 w-full p-4 flex flex-col md:max-h-[calc(100vh-48px)]`;
@@ -25,7 +26,7 @@ const Home = () => {
         src="/src/assets/images/yellow_logo.png"
         alt="Logo"
         fetchPriority="high"
-        className="absolute top-4 left-4 w-12 md:w-14 z-10 "
+        className={`${topIcon} left-4 md:left-6`}
       />
 
       <div className="absolute inset-0">

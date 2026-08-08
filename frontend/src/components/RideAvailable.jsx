@@ -1,23 +1,24 @@
 import { MapPinHouse, MapPinCheckInside, Wallet } from "lucide-react";
 import { buttonStyle , headingStyle} from "../utils/classes";
 
+// eslint-disable-next-line no-unused-vars
 const RideAvailable = ({ panelStates }) => {
   return (
     <section className="px-4 h-full flex flex-col">
       <h1 className={`${headingStyle} my-3`}> New Ride Available !! </h1>
-      <div className="flex justify-between py-4 items-center">
-        <div className="flex gap-2 items-center justify-center ">
+      <div className="flex justify-between py-4 items-center bg-[#edaf10] px-1 rounded-md">
+        <div className="flex gap-2 items-center justify-center  ">
           <img
             src="https://imgs.search.brave.com/vETsjfyRHQZNvoyfI26SD9n2agjVrTIrEHeZDpKFRjA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/bWFnbmlmaWMuY29t/L3ByZW1pdW0tcGhv/dG8vcG9ydHJhaXQt/cGVyc29uLW1hbi0z/MHMtYmxvbmRlLWhh/aXIteWVsbG93LWds/YXNzZXMtYnJpZ2h0/LWNvbG9yZnVsLWNs/b3RoZXMtc2xpZ2h0/LXNtaWxlXzExOTg5/MTktMzc3LmpwZz9z/ZW10PWFpc19oeWJy/aWQmdz03NDAmcT04/MA"
             alt="PP"
             className="size-15 rounded-full object-cover"
           />
-          <h2 className="text-xl tracking-wide font-semibold">Chris Parker</h2>
+          <h2 className="text-xl tracking-wide font-semibold text-white">Chris Parker</h2>
         </div>
 
         <div className="flex flex-col items-end">
-          <h2 className="text-xl tracking-wide font-semibold">Rs 450.24</h2>
-          <p className="text-sm text-gray-500"> 2.2 km</p>
+          <h2 className="text-xl tracking-wide font-semibold text-white">Rs 450.24</h2>
+          <p className="text-sm text-gray-100"> 2.2 km</p>
         </div>
       </div>
       {/* Pickup  */}
