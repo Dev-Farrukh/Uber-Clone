@@ -1,11 +1,11 @@
 import { MapPinHouse, MapPinCheckInside, Wallet } from "lucide-react";
 import { buttonStyle , headingStyle} from "../utils/classes";
+import { Link } from "react-router-dom";
 
-// eslint-disable-next-line no-unused-vars
 const RideAvailable = ({ panelStates }) => {
   return (
     <section className="px-4 h-full flex flex-col">
-      <h1 className={`${headingStyle} my-3`}> New Ride Available !! </h1>
+      <h1 className={`${headingStyle} my-3`}>{ panelStates.isConfirm ? "Confirm Ride" : "New Ride Available !!"} </h1>
       <div className="flex justify-between py-4 items-center bg-[#edaf10] px-1 rounded-md">
         <div className="flex gap-2 items-center justify-center  ">
           <img
@@ -53,9 +53,17 @@ const RideAvailable = ({ panelStates }) => {
           <h6 className="text-xs text-gray-500">Karachi</h6>
         </div>
       </div>
-      <div className="flex justify-end items-center gap-4 my-2 ">
-        <button className={`${buttonStyle} px-12 hover:bg-green-500 `}> Accept</button>
-        <button className={`${buttonStyle} px-12 bg-gray-400 hover:bg-red-500`}> Ignore</button>
+      <div className={`flex justify-end items-center gap-4 my-2 ${panelStates.isConfirm ? "flex-col" : "flex-row"}`}>
+        {panelStates.isConfirm ?
+         <Link className={`${buttonStyle} px-12 hover:bg-green-500 w-full text-center `} to="/riding" >Confirm</Link>
+         :
+         <button className={`${buttonStyle} px-12 hover:bg-green-500 `} onClick={()=> panelStates.setIsConfirm(true)} > Accept</button>
+         }
+        <button 
+        className={`${buttonStyle} px-12 bg-gray-400 hover:bg-red-500 ${panelStates.isConfirm && "w-full"}`} 
+        onClick={()=> {panelStates.setIsConfirm(false) ; panelStates.setRideAvailable(false) }}> 
+          Ignore
+        </button>
 
       </div>
       

@@ -9,6 +9,7 @@ import { topIcon } from "../../../utils/classes";
 
 const RiderHome = () => {
   const [rideAvailable , setRideAvailable] = useState(true)
+  const [isConfirm , setIsConfirm] = useState(false)
   const panelClass = "absolute bottom-0 left-0 w-full bg-white rounded-t-3xl z-30 h-[52%] md:top-6 md:left-6 md:w-105 md:h-[80%] md:rounded-xl md:shadow-2xl";
 
   return (
@@ -45,10 +46,10 @@ const RiderHome = () => {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`${panelClass} h-[70%]`}
+            className={`${panelClass} ${isConfirm ? "h-dvh" : "h-[70%]"}`}
           >
             <RideAvailable
-              panelStates={{ setRideAvailable  }}
+              panelStates={{ setRideAvailable , setIsConfirm , isConfirm  }}
             />
           </motion.div>
         )}
