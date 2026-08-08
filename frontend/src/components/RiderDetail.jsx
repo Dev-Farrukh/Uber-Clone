@@ -13,7 +13,7 @@ const RiderDetail = () => {
           <h2 className="text-xl tracking-wide font-semibold">Jimmy Rose</h2>
           
         </div>
-        {/* Details */}
+        
         <div className="flex flex-col items-end">
           <h2 className="text-xl tracking-wide font-semibold">
             Rs 10 ,234

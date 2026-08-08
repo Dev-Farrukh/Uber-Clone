@@ -25,7 +25,7 @@ const Home = () => {
         src="/src/assets/images/yellow_logo.png"
         alt="Logo"
         fetchPriority="high"
-        className="absolute top-4 left-4 w-12 md:w-14 z-10"
+        className="absolute top-4 left-4 w-12 md:w-14 z-10 "
       />
 
       <div className="absolute inset-0">

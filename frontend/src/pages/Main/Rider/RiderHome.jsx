@@ -1,10 +1,18 @@
 import RiderDetail from "../../../components/RiderDetail";
 import { Link } from "react-router-dom"
 import { LogOut } from 'lucide-react';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import RideAvailable from "../../../components/RideAvailable";
+
 
 const RiderHome = () => {
+  const [rideAvailable , setRideAvailable] = useState(true)
+  const panelClass = "absolute bottom-0 left-0 w-full bg-white rounded-t-3xl z-30 h-[52%] md:top-6 md:left-6 md:w-105 md:h-[80%] md:rounded-xl md:shadow-2xl";
+
   return (
     <section className="relative h-dvh overflow-hidden bg-gray-100 font-poppins">
+     
        <Link to="/logout" className="bg-white text-[#edaf10] rounded-full size-10 mx-auto flex items-center justify-center absolute top-4 md:top-6 hover:bg-gray-100 right-4 md:size-14 z-10 outline-none border-2 ">
         <LogOut strokeWidth={2.5}/>
       </Link>
@@ -12,7 +20,8 @@ const RiderHome = () => {
         src="/src/assets/images/yellow_logo.png"
         alt="Logo"
         fetchPriority="high"
-        className="absolute top-4 left-4 w-12 md:w-14 z-10"
+        className="bg-white text-[#edaf10] rounded-full size-10 mx-auto flex items-center justify-center absolute top-4 md:top-6 hover:bg-gray-100 md:left-6 left-4 md:size-14 z-10 outline-none border-2 "
+        // className="absolute top-4 left-4 w-12 md:w-14 z-10"
       />
 
       <div className="absolute inset-0">
@@ -24,9 +33,26 @@ const RiderHome = () => {
       </div>
 
       {/* Rider details */}
-      <div className="absolute bottom-0 left-0 w-full bg-white rounded-t-3xl z-30 h-[52%] md:top-6 md:left-6 md:w-105 md:h-[80%] md:rounded-xl md:shadow-2xl">
+      <div className={panelClass}>
         <RiderDetail />
       </div>
+
+      {/* Rider Popup */}
+        <AnimatePresence>
+        {rideAvailable && (
+          <motion.div
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className={`${panelClass} h-[70%]`}
+          >
+            <RideAvailable
+              panelStates={{ setRideAvailable  }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     
     </section>
   );
