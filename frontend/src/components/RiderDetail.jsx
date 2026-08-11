@@ -7,7 +7,7 @@ const RiderDetail = () => {
         <div className="flex gap-2 items-center justify-center flex-row">
           <img
             src={"https://imgs.search.brave.com/Z74aCVY8Mb-9zXX5UBejAdWTH1YLxOq6r7v7EKm0oAY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/c2h1dHRlcnN0b2Nr/LmNvbS9pbWFnZS1w/aG90by9yYW5kb20t/d2hpdGUtcGVyc29u/LWNpcmNsZS1wcm9m/aWxlLTI2MG53LTI1/OTg2MDc0NDcuanBn"}
-            alt="Bike"
+            alt="PP"
             className="size-15 rounded-full object-contain "
           />
           <h2 className="text-xl tracking-wide font-semibold">Jimmy Rose</h2>
