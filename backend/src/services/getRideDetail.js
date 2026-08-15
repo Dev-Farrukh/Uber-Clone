@@ -1,5 +1,5 @@
-export const getCoordinates = async (query) => {}
+export const getCoordinates = async () => {}
 
-export const getTime = async (query) => {}
-export const getDistance = async (query) => {}
-export const getSuggestion = async (query) => {}
+export const getTime = async () => {}
+export const getDistance = async () => {}
+export const getSuggestion = async () => {}
