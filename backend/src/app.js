@@ -4,6 +4,7 @@ import userRouter from "./routes/user.routes.js"
 import riderRouter from "./routes/rider.routes.js"
 import cookieParser from "cookie-parser"
 import cors from "cors"
+import travelRouter from "./routes/distance.route.js"
 
 const app = express()
 dbConfiguration()
@@ -21,6 +22,7 @@ app.use(cors({
 
 app.use("/api/user" , userRouter)
 app.use("/api/rider" , riderRouter)
+app.use("/api" , travelRouter)
 
  
 export default app
