@@ -20,4 +20,11 @@ router.get("/suggestion" , [
     query("input").isLength({min : 3}).withMessage("Invalid Input")
 ] , userTokenCheck , travelController.getAutoCompleteSuggestion)
 
+
+router.post("/create-ride" , [
+    query("vehicleType").isLength({min : 3}).isIn(["car", "bike", "auto"]).withMessage("Invalid Vehile Type"),
+    query("pickup").isLength({min : 3}).withMessage("Invalid pickup"),
+    query("destination").isLength({min : 3}).withMessage("Invalid destination"),
+] , userTokenCheck , travelController.generateRide)
+
 export default router

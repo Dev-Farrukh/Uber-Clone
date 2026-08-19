@@ -1,6 +1,6 @@
 import axios from 'axios'
 const TOKEN = "pk.a7c03350869b92f19175e53d1ae42f4c"
-// export const getTime = async () => {}
+
 export const getAddressCoordinate = async (address) => {
     const url = `https://us1.locationiq.com/v1/search?key=${TOKEN}&q=${encodeURIComponent(address)}&format=json`
     try {
@@ -18,7 +18,8 @@ export const getDistance = async ({ pickupLat, pickupLong, destinationLat, desti
         const response = await axios.get(url)
         return response.data
     } catch (error) {
-        throw new Error("Error in getDistance", error)
+        console.error("Detailed getDistance Error:", error.response?.data || error.message || error);
+        throw new Error(`Error in getDistance: ${error.message}`, { cause: error });
     }
 }
 export const getSuggestion = async (query) => {
