@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SearchPanelResult from "../../../components/SearchPanelResult";
 import VehiclePanel from "../../../components/VehiclePanel";
@@ -6,6 +6,9 @@ import ConfirmRide from "../../../components/ConfirmRide";
 import LookingForRider from "../../../components/LookingForRider";
 import Summary from "../../../components/Summary";
 import { topIcon } from "../../../utils/classes";
+import axios from "axios";
+import toast from "react-hot-toast";
+import apiClient from "../../../api/axiosClient";
 
 const searchPanel = "absolute bg-white z-20 md:top-6 md:left-6 md:w-105 md:rounded-xl md:shadow-2xl md:p-6";
 const searchPanelOpen = `${searchPanel} top-0 w-full p-4 flex flex-col md:max-h-[calc(100vh-48px)]`;
@@ -16,12 +19,47 @@ const Home = () => {
   const [panelOpen, setPanelOpen] = useState(false);
   const [vehiclePanelOpen, setVehiclePanelOpen] = useState(false);
   const [confirmRideOpen, setConfirmRideOpen] = useState(false);
-  const [lookingforRider , setLookingforRider] = useState(false)
-  const [summary , setSummary] = useState(false)
+  const [lookingforRider, setLookingforRider] = useState(false);
+  const [summary, setSummary] = useState(false);
+  const [pickup, setPickup] = useState("");
+  const [destination, setDestination] = useState("");
+  const [activeField, setActiveField] = useState(null); // 'pickup' | 'destination'
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false); 
 
+ useEffect(() => {
+    const queryInput = activeField === "pickup" ? pickup : activeField === "destination" ? destination : "";
+
+    // Debounce API calls (wait 300ms after user stops typing)
+    const timeoutId = setTimeout(() => {
+      if (!queryInput || queryInput.trim().length < 3) {
+        setSuggestions([]);
+        setLoading(false);
+        return;
+      }
+
+      const fetchSuggestions = async () => {
+        setLoading(true); 
+        try {
+          const response = await apiClient.get("suggestion", {
+            params: { input: queryInput },
+          });
+          setSuggestions(response.data);
+        } catch (error) {
+          console.error("Cannot get Suggestion", error);
+          toast.error("No result found");)
+        } finally {
+          setLoading(false); 
+        }
+      };
+
+      fetchSuggestions();
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [pickup, destination, activeField]);
   return (
     <section className="relative h-dvh overflow-hidden bg-gray-100 font-poppins">
-
       <img
         src="/src/assets/images/yellow_logo.png"
         alt="Logo"
@@ -37,13 +75,13 @@ const Home = () => {
         />
       </div>
 
-
-      {/* Search Result  */}
+      {/* Search Result */}
       <motion.div
         initial={false}
         animate={{ height: panelOpen ? "100%" : "40%" }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className={panelOpen ? searchPanelOpen : searchPanelClosed}>
+        className={panelOpen ? searchPanelOpen : searchPanelClosed}
+      >
         <AnimatePresence>
           <motion.div
             initial={{ opacity: 0 }}
@@ -56,13 +94,22 @@ const Home = () => {
                 panelOpen,
                 setPanelOpen,
                 setVehiclePanelOpen,
+                pickup,
+                setPickup,
+                destination,
+                setDestination,
+                activeField,
+                setActiveField,
+                suggestions,
+                setSuggestions,
+                loading
               }}
             />
           </motion.div>
         </AnimatePresence>
       </motion.div>
 
-      {/* Vehicle panel  */}
+      {/* Vehicle panel */}
       <AnimatePresence>
         {vehiclePanelOpen && (
           <motion.div
@@ -73,13 +120,13 @@ const Home = () => {
             className={vehiclePanel}
           >
             <VehiclePanel
-              panelStates={{ setVehiclePanelOpen , setConfirmRideOpen }}
+              panelStates={{ setVehiclePanelOpen, setConfirmRideOpen }}
             />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Confirm Ride  */}
+      {/* Confirm Ride */}
       <AnimatePresence>
         {confirmRideOpen && (
           <motion.div
@@ -90,13 +137,13 @@ const Home = () => {
             className={`${vehiclePanel} h-[68%]`}
           >
             <ConfirmRide
-              panelStates={{ setConfirmRideOpen , setLookingforRider }}
+              panelStates={{ setConfirmRideOpen, setLookingforRider }}
             />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Looking for Rider  */}
+      {/* Looking for Rider */}
       <AnimatePresence>
         {lookingforRider && (
           <motion.div
@@ -104,16 +151,16 @@ const Home = () => {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`${vehiclePanel}  h-[68%]`}
+            className={`${vehiclePanel} h-[68%]`}
           >
             <LookingForRider
-              panelStates={{ setConfirmRideOpen , setLookingforRider }}
+              panelStates={{ setConfirmRideOpen, setLookingforRider }}
             />
           </motion.div>
         )}
       </AnimatePresence>
 
-       {/* Summary for Rider  */}
+      {/* Summary for Rider */}
       <AnimatePresence>
         {summary && (
           <motion.div
@@ -121,10 +168,10 @@ const Home = () => {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`${vehiclePanel}  h-[68%]`}
+            className={`${vehiclePanel} h-[68%]`}
           >
             <Summary
-              panelStates={{ setSummary , setLookingforRider }}
+              panelStates={{ setSummary, setLookingforRider }}
             />
           </motion.div>
         )}
