@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator"
 import { getAddressCoordinate, getDistance, getSuggestion } from "../services/getRideDetail.js"
-import createRide from "../services/createRide.js"
+import createRide, { generateFare } from "../services/createRide.js"
 
 export const getCoordinate = async (req, res) => {
     const error = validationResult(req)
@@ -45,4 +45,29 @@ export const generateRide = async (req, res) => {
         message: " Ride created successfully",
         ride
     })
+}
+
+export const getFare = async (req , res ) => {
+    const error = validationResult(req)
+     if (!error.isEmpty()) {
+        return res.status(400).json({ errors: error.array() })
+    }
+    const { pickup, destination } = req.query
+    try {
+        const fare = await generateFare({pickup, destination})
+        return res.status(200).json({
+        message: "Fare fetched successfully",
+        fare
+    })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Failed to calculate fare."
+        });
+        
+    }
+    
+
+
+
 }

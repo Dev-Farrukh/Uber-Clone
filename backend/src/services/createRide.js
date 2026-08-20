@@ -2,7 +2,8 @@ import rideModel from "../model/ride.model.js";
 import { getAddressCoordinate, getDistance } from "./getRideDetail.js"
 import crypto from "crypto"
 
-async function generateFare (origin , destination){
+export async function generateFare ({pickup , destination}){
+    
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
    const baseFare = {
         bike: 30,  // Base starting price
@@ -22,15 +23,19 @@ async function generateFare (origin , destination){
         car: 40
     };
 
-    const pickup = await getAddressCoordinate(origin)
-    await delay(1100);
+    const origin = await getAddressCoordinate(pickup)
+    await delay(500);
     const dropoff = await getAddressCoordinate(destination)
-    await delay(1100);
-    console.log(pickup[0]?.lat , pickup[0]?.lon , dropoff[0]?.lat , dropoff[0]?.lon);
+    await delay(500);
+    console.log(origin[0]?.lat , origin[0]?.lon , dropoff[0]?.lat , dropoff[0]?.lon);
+
+    if (!origin || origin.length === 0 || !dropoff || dropoff.length === 0) {
+     throw new Error("Could not geocode one or both addresses. Please enter a valid location.");
+    }
     
     const response = await getDistance({
-    pickupLat: pickup[0].lat,
-    pickupLong: pickup[0].lon,
+    pickupLat: origin[0].lat,
+    pickupLong: origin[0].lon,
     destinationLat: dropoff[0].lat,
     destinationLong: dropoff[0].lon
     });
@@ -71,7 +76,7 @@ export const generateOTP = (length) => {
 
 const createRide = async ({vehicleType , pickup , destination , user}) => {
     try {
-        const {distanceKm , durationMin , calculatedFare} = await generateFare(pickup ,destination)
+        const {distanceKm , durationMin , calculatedFare} = await generateFare({pickup ,destination})
         const otp = generateOTP(5)
         
         let fare = calculatedFare[vehicleType]

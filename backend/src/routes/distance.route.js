@@ -27,4 +27,9 @@ router.post("/create-ride" , [
     query("destination").isLength({min : 3}).withMessage("Invalid destination"),
 ] , userTokenCheck , travelController.generateRide)
 
+router.get("/fare" , [
+    query("pickup").isLength({min : 3}).withMessage("Invalid pickup"),
+    query("destination").isLength({min : 3}).withMessage("Invalid destination"),
+] , userTokenCheck , travelController.getFare)
+
 export default router
