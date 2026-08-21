@@ -10,6 +10,8 @@ import apiClient from "../../../api/axiosClient";
 import { useContext } from "react";
 import { SocketContext } from "../../Context/SocketContext";
 import { MainContext } from "../../Context/Context";
+import { useNavigate } from "react-router-dom";
+
 
 const searchPanel = "absolute bg-white z-20 md:top-6 md:left-6 md:w-105 md:rounded-xl md:shadow-2xl md:p-6";
 const searchPanelOpen = `${searchPanel} top-0 w-full p-4 flex flex-col md:max-h-[calc(100vh-48px)]`;
@@ -32,11 +34,12 @@ const Home = () => {
   const [fareApi, setFareApi] = useState(false)
   const [rideId, setRideId] = useState(null)
   const [confirmedRide, setConfirmedRide] = useState(null)
+  const navigate = useNavigate()
 
   const { socket } = useContext(SocketContext)
   const user = useContext(MainContext)
 
-  //  Socket Connection 
+  // Socket connection and ride confirmation events
   useEffect(() => {
     if (!user?.user?._id) return;
 
@@ -48,17 +51,6 @@ const Home = () => {
       });
     };
 
-    if (socket.connected) {
-      joinUser();
-    } else {
-      socket.once("connect", joinUser);
-    }
-
-    return () => socket.off("connect", joinUser);
-  }, [socket, user?.user?._id])
-
-  // Listen for ride-confirmed event
-  useEffect(() => {
     const handleRideConfirmed = (ride) => {
       console.log("Ride confirmed by rider:", ride);
       setConfirmedRide(ride);
@@ -66,14 +58,24 @@ const Home = () => {
       setSummary(true);
     };
 
-    console.log('Setting up ride-confirmed listener');
-    socket.on('ride-confirmed', handleRideConfirmed);
+    if (socket.connected) {
+      joinUser();
+    } else {
+      socket.once("connect", joinUser);
+    }
+
+    socket.on("ride-confirmed", handleRideConfirmed);
 
     return () => {
-      console.log('Cleaning up ride-confirmed listener');
-      socket.off('ride-confirmed', handleRideConfirmed);
+      socket.off("connect", joinUser);
+      socket.off("ride-confirmed", handleRideConfirmed);
     };
-  }, [socket])
+  }, [socket, user?.user?._id])
+
+  //Listen for ride start 
+  socket.on('ride-started' , (ride)=> {
+    navigate("/riding")
+  })
 
     
 

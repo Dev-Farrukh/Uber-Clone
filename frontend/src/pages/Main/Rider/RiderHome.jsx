@@ -7,7 +7,7 @@ import RideAvailable from "../../../components/RideAvailable";
 import { topIcon } from "../../../utils/classes";
 import { MainContext } from "../../Context/Context";
 import { SocketContext } from "../../Context/SocketContext";
-import axios from "axios";
+import apiClient from "../../../api/axiosClient.js"
 
 
 const RiderHome = () => {
@@ -79,7 +79,7 @@ const RiderHome = () => {
   async function confirmRideAPI() {
     try {
       console.log('Confirming ride with ID:', ride._id);
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}confirm-ride`, {
+      const response = await apiClient.post(`${import.meta.env.VITE_BASE_URL}confirm-ride`, {
         rideId: ride._id,
       }, {
         headers: {
@@ -87,8 +87,8 @@ const RiderHome = () => {
         }
       });
       console.log('Ride confirmation response:', response.data);
-      setRideAvailable(false);
-      setIsConfirm(false);
+      // setRideAvailable(false);
+      // setIsConfirm(true);
     } catch (error) {
       console.error('Error confirming ride:', error);
       alert('Failed to confirm ride: ' + (error.response?.data?.message || error.message));

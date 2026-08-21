@@ -1,13 +1,20 @@
 import { Server } from 'socket.io';
 import riderModel from './src/model/rider.model.js';
 import userModel from './src/model/user.model.js';
+import envVariables from './src/config/envConfig.js';
 
 let io;
 
 export function initializeSocket(server) {
     io = new Server(server, {
         cors: {
-            origin: '*',
+            origin: [
+                "http://localhost:5173",
+                "http://127.0.0.1:5173",
+                "https://probable-space-fishstick-g4j5vjr6wjqx2vwg-5173.app.github.dev",
+                "https://ld5859dw-5173.inc1.devtunnels.ms",
+                envVariables.FRONTEND_URL
+            ],
             methods: ['GET', 'POST']
         }
     });

@@ -1,13 +1,43 @@
 import { MapPinHouse, MapPinCheckInside, Wallet } from "lucide-react";
 import { buttonStyle , headingStyle} from "../utils/classes";
-import { Link } from "react-router-dom";
-import ConfirmRide from "./ConfirmRide";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import apiClient from "../api/axiosClient";
+import toast from "react-hot-toast";
 
 const RideAvailable = ({ panelStates }) => {
   const { ride } = panelStates
+  const [otp , setOtp] = useState("")
+  const navigate = useNavigate()
+
   const riderName = [ride?.user?.fullName?.firstName, ride?.user?.fullName?.lastName]
     .filter(Boolean)
     .join(" ") || "User"
+
+  const confirmHandler = async (e) => {
+    e.preventDefault()
+
+    if (!otp || otp.length < 4 || otp.length > 6) {
+      toast.error("Invalid OTP")
+      return
+    }
+
+    try {
+      const response = await apiClient.get("start-ride", {
+        params: {
+          rideId: ride._id,
+          otp
+        }
+      })
+
+      if (response.status === 200) {
+        navigate("/rider-location")
+      }
+    } catch (error) {
+      console.error("Error starting ride:", error)
+      toast.error(error.response?.data?.message || "Invalid OTP")
+    }
+  }
 
   return (
     <section className="px-4 h-full flex flex-col">
@@ -64,10 +94,15 @@ const RideAvailable = ({ panelStates }) => {
           <input 
           type="text"  
           placeholder="Enter the Otp"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
           className="flex-1 w-full border-2 border-gray-300 rounded-sm p-3 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#EDAF10] focus:border-none"/>
         }
         {panelStates.isConfirm ?
-         <Link className={`${buttonStyle} px-12 hover:bg-green-500 w-full text-center `} to="/riding" >Confirm</Link>
+        //  <Link className={`${buttonStyle} px-12 hover:bg-green-500 w-full text-center `} to="/riding" >Confirm</Link>
+         <button onClick={(e)=>confirmHandler(e)} className={`${buttonStyle} px-12 hover:bg-green-500 w-full text-center `} to="/riding" >
+          Confirm
+          </button>
          :
          <button className={`${buttonStyle} px-12 hover:bg-green-500 `} onClick={()=> {panelStates.setIsConfirm(true) ; panelStates.confirmRideAPI()}} > Accept</button>
          }

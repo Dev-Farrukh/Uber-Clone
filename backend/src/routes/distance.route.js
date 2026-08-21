@@ -36,4 +36,10 @@ router.post("/confirm-ride" , [
     body("rideId").isMongoId().withMessage("Invalid MongoDB ObjectId")
 ] , riderTokenCheck , travelController.confirmThisRide)
 
+router.get('/start-ride',
+    query('rideId').isMongoId().withMessage('Invalid ride id'),
+    query('otp').isString().isLength({ min: 4, max: 6 }).withMessage('Invalid OTP'),
+    riderTokenCheck ,travelController.startRide
+)
+
 export default router
