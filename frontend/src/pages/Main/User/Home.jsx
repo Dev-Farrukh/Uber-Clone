@@ -205,7 +205,7 @@ const Home = () => {
             className={`${vehiclePanel} h-[68%]`}
           >
             <LookingForRider
-              panelStates={{ setConfirmRideOpen, setLookingforRider }}
+              panelStates={{ setConfirmRideOpen, setLookingforRider, selectedVehicle }}
             />
           </motion.div>
         )}

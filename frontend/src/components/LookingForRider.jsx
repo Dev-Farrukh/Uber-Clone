@@ -2,14 +2,16 @@ import { headingStyle } from "../utils/classes"
 import { ChevronDown, MapPinHouse, MapPinCheckInside, Wallet } from "lucide-react"
 
 const LookingForRider = ({ panelStates }) => {
+    const { selectedVehicle } = panelStates
+
     return (
         <section className="px-4 h-full flex flex-col">
             <ChevronDown onClick={() => panelStates.setLookingforRider(false)}
                 className="cursor-pointer text-gray-600 hover:text-black transition-colors mx-auto my-2 " />
 
             <h1 className={headingStyle}>Looking For Rider</h1>
-            <img src={'src/assets/images/bike.png'}
-                alt="Bike"
+            <img src={selectedVehicle?.image || "/src/assets/images/bike.png"}
+                alt={selectedVehicle?.name || "Bike"}
                 className="w-[30%] object-contain mx-auto "
             />
             <div className="w-40 h-8 bg-yellow-100 rounded-full mx-auto mt-3 relative overflow-hidden" >
