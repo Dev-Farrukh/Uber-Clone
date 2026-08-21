@@ -11,9 +11,9 @@ const FinishRide = ({ panelStates }) => {
       rideId: panelStates?.ride?._id,
     })
     if(response.status === 200){
+      navigate("/rider")
       panelStates.setFinishRide(false)
       panelStates.setRide(null)
-      navigate("/rider")
       
     }
   }
