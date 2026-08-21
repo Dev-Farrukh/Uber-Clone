@@ -11,7 +11,8 @@ const SearchPanelResult = ({ panelStates }) => {
     setActiveField,
     suggestions,
     setSuggestions,
-    loading
+    loading,
+    setFareApi
   } = panelStates;
 
   // Current query text based on active input
@@ -19,14 +20,15 @@ const SearchPanelResult = ({ panelStates }) => {
 
   // Populates input field with clicked location
   const handleSelectSuggestion = (locationString) => {
-    if (activeField === "pickup") {
-      setPickup(locationString);
-    } else if (activeField === "destination") {
-      setDestination(locationString);
-    }
-    // Clear list after picking a location
-    setSuggestions([]);
-  };
+  if (activeField === "pickup") {
+    setPickup(locationString);
+  } else if (activeField === "destination") {
+    setDestination(locationString);
+  }
+  // Clear list AND deactivate active field so API doesn't re-query
+  setSuggestions([]);
+  setActiveField(null); 
+};
 
   return (
     <>
@@ -96,6 +98,7 @@ const SearchPanelResult = ({ panelStates }) => {
             onClick={() => {
               panelStates.setVehiclePanelOpen(true);
               panelStates.setPanelOpen(false);
+              setFareApi(true)
             }}
             className={buttonStyle}
           >

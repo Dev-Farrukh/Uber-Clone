@@ -2,77 +2,96 @@ import { ChevronDown, User } from "lucide-react"
 import { headingStyle } from "../utils/classes"
 
 const VehiclePanel = ({ panelStates }) => {
+  const isLoading = panelStates?.isFareLoading || !panelStates?.vehicleData?.data?.fare;
+  const fareData = panelStates?.vehicleData?.data?.fare;
+
+  const vehicles = [
+    {
+      type: "bike",
+      name: "Bike",
+      capacity: 1,
+      eta: "10 mins away",
+      description: "Fast Ride",
+      image: "/src/assets/images/bike.png",
+      fare: fareData?.calculatedFare?.bike
+    },
+    {
+      type: "auto",
+      name: "Auto",
+      capacity: 3,
+      eta: "7 mins away",
+      description: "Comfortable ride",
+      image: "src/assets/images/auto.png",
+      fare: fareData?.calculatedFare?.auto
+    },
+    {
+      type: "car",
+      name: "Car",
+      capacity: 4,
+      eta: "1 min away",
+      description: "Smooth ride",
+      image: "https://imgs.search.brave.com/5dI1XjS7et0fBxAWF_crbf9sSiDgNk2YKJLK8PGvA5o/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2E3LzQ0/L2JiL2E3NDRiYjY2/NDBjOTg1Y2Y3MjM5/NWFlN2M2MWYzZWVk/LmpwZw",
+      fare: fareData?.calculatedFare?.car
+    }
+  ];
+
   return (
     <section className="px-4 h-full flex flex-col">
-      <ChevronDown onClick={() => panelStates.setVehiclePanelOpen(false)}
-        className="cursor-pointer text-gray-600 hover:text-black transition-colors mx-auto my-2 " />
+      <ChevronDown
+        onClick={() => {
+          panelStates.setVehiclePanelOpen(false);
+          panelStates.setFareApi(false);
+        }}
+        className="cursor-pointer text-gray-600 hover:text-black transition-colors mx-auto my-2"
+      />
 
       <h1 className={headingStyle}>Choose a Vehicle</h1>
+
       {/* Options Section */}
-      <div className=" overflow-auto py-1 my-4">
-
-        <div onClick={()=>{panelStates.setConfirmRideOpen(true)}}
-         className="flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4   cursor-pointer">
-          <img src={'/src/assets/images/bike.png'}
-            alt="Bike"
-            className="w-[30%] object-contain pr-2"
-            fetchPriority="high"
-          />
-          <div className="flex flex-col flex-3">
-            <div className="flex gap-1 pt-2">
-              <h3 className="text-[20px]  font-semibold" >Car</h3>
-              <div className="flex gap-1 items-center"> <User className="" strokeWidth={3} /><span className="font-semibold">4</span></div>
+      <div className="overflow-auto py-1 my-4">
+        {vehicles.map((vehicle) => (
+          <div
+            key={vehicle.type}
+            onClick={() => {
+              if (!isLoading) {
+                panelStates.setSelectedVehicle(vehicle);
+                panelStates.setConfirmRideOpen(true);
+              }
+            }}
+            className={`flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4 ${
+              isLoading ? "cursor-wait opacity-80" : "cursor-pointer hover:border-black"
+            } transition-all`}
+          >
+            <img
+              src={vehicle.image}
+              alt={vehicle.name}
+              className="w-[30%] object-contain pr-2 h-16"
+            />
+            <div className="flex flex-col flex-3">
+              <div className="flex gap-1 pt-2">
+                <h3 className="text-[20px] font-semibold">{vehicle.name}</h3>
+                <div className="flex gap-1 items-center">
+                  <User strokeWidth={3} size={16} />
+                  <span className="font-semibold">{vehicle.capacity}</span>
+                </div>
+              </div>
+              <h6 className="text-sm text-gray-800">{vehicle.eta}</h6>
+              <p className="text-xs text-gray-500">{vehicle.description}</p>
             </div>
-            <h6 className="text-sm text-gray-800">2 mins away</h6>
-            <p className="text-xs text-gray-500">
-              Comfortable ride
-            </p>
-          </div>
-          <h3 className="flex-2 text-lg font-bold">Rs 400.45</h3>
-        </div>
 
-        <div onClick={()=>{panelStates.setConfirmRideOpen(true)}}
-         className="flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4   cursor-pointer">
-          <img src={'src/assets/images/auto.png'}
-            alt="Auto"
-            className="w-[30%] object-contain pr-2  "
-          />
-          <div className="flex flex-col flex-3">
-            <div className="flex gap-1 pt-2">
-              <h3 className="text-[20px]  font-semibold" >Car</h3>
-              <div className="flex gap-1 items-center"> <User className="" strokeWidth={3} /><span className="font-semibold">4</span></div>
+            {/* Fare Price or Skeleton Loader */}
+            <div className="flex-2 flex justify-end">
+              {isLoading ? (
+                <div className="h-6 w-16 bg-gray-200 animate-pulse rounded"></div>
+              ) : (
+                <h3 className="text-lg font-bold">Rs {vehicle.fare}</h3>
+              )}
             </div>
-            <h6 className="text-sm text-gray-800">2 mins away</h6>
-            <p className="text-xs text-gray-500">
-              Comfortable ride
-            </p>
           </div>
-          <h3 className="flex-2 text-lg font-bold">Rs 400.45</h3>
-        </div>
-
-        <div onClick={()=>{panelStates.setConfirmRideOpen(true)}}
-         className="flex my-2 items-center border-2 rounded-md border-gray-300 px-2 py-4 cursor-pointer">
-          <img src="https://imgs.search.brave.com/5dI1XjS7et0fBxAWF_crbf9sSiDgNk2YKJLK8PGvA5o/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2E3LzQ0/L2JiL2E3NDRiYjY2/NDBjOTg1Y2Y3MjM5/NWFlN2M2MWYzZWVk/LmpwZw"
-            alt="Car"
-            className="w-[30%] object-contain   "
-          />
-          <div className="flex flex-col flex-3">
-            <div className="flex gap-1 pt-2">
-              <h3 className="text-[20px]  font-semibold" >Car</h3>
-              <div className="flex gap-1 items-center"> <User className="" strokeWidth={3} /><span className="font-semibold">4</span></div>
-            </div>
-            <h6 className="text-sm text-gray-800">2 mins away</h6>
-            <p className="text-xs text-gray-500">
-              Comfortable ride
-            </p>
-          </div>
-          <h3 className="flex-2 text-lg font-bold">Rs 400.45</h3>
-        </div>
-
+        ))}
       </div>
     </section>
+  );
+};
 
-  )
-}
-
-export default VehiclePanel
+export default VehiclePanel;

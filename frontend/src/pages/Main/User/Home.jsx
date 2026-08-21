@@ -6,8 +6,6 @@ import ConfirmRide from "../../../components/ConfirmRide";
 import LookingForRider from "../../../components/LookingForRider";
 import Summary from "../../../components/Summary";
 import { topIcon } from "../../../utils/classes";
-import axios from "axios";
-import toast from "react-hot-toast";
 import apiClient from "../../../api/axiosClient";
 
 const searchPanel = "absolute bg-white z-20 md:top-6 md:left-6 md:w-105 md:rounded-xl md:shadow-2xl md:p-6";
@@ -25,12 +23,30 @@ const Home = () => {
   const [destination, setDestination] = useState("");
   const [activeField, setActiveField] = useState(null); // 'pickup' | 'destination'
   const [suggestions, setSuggestions] = useState([]);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const [vehicleData, setVehicleData] = useState(null)
+  const [selectedVehicle, setSelectedVehicle] = useState(null)
+  const [fareApi, setFareApi] = useState(false)
 
- useEffect(() => {
+  const createRide = () => apiClient.post("create-ride", null, {
+    params: {
+      vehicleType: selectedVehicle.type,
+      pickup,
+      destination
+    }
+  })
+
+  // Api For HomePage 
+
+  // Suggestion 
+  useEffect(() => {
+    if (!activeField) {
+      const timeoutId = setTimeout(() => setSuggestions([]), 0);
+      return () => clearTimeout(timeoutId);
+    }
+
     const queryInput = activeField === "pickup" ? pickup : activeField === "destination" ? destination : "";
 
-    // Debounce API calls (wait 300ms after user stops typing)
     const timeoutId = setTimeout(() => {
       if (!queryInput || queryInput.trim().length < 3) {
         setSuggestions([]);
@@ -39,7 +55,7 @@ const Home = () => {
       }
 
       const fetchSuggestions = async () => {
-        setLoading(true); 
+        setLoading(true);
         try {
           const response = await apiClient.get("suggestion", {
             params: { input: queryInput },
@@ -47,9 +63,8 @@ const Home = () => {
           setSuggestions(response.data);
         } catch (error) {
           console.error("Cannot get Suggestion", error);
-          toast.error("No result found");)
         } finally {
-          setLoading(false); 
+          setLoading(false);
         }
       };
 
@@ -58,15 +73,36 @@ const Home = () => {
 
     return () => clearTimeout(timeoutId);
   }, [pickup, destination, activeField]);
+
+  // Getting Fare
+  useEffect(()=> {
+    if (!fareApi) return;
+
+    const fetchFare = async () => {
+      try {
+        const response = await apiClient.get("fare", {
+          params: { pickup, destination }
+        });
+        setVehicleData(response);
+      } catch (error) {
+        console.error("Error in getting fare", error);
+      }
+    };
+
+    fetchFare();
+  }, [fareApi, pickup, destination])
+
   return (
     <section className="relative h-dvh overflow-hidden bg-gray-100 font-poppins">
+      {/* Logo */}
       <img
         src="/src/assets/images/yellow_logo.png"
         alt="Logo"
         fetchPriority="high"
         className={`${topIcon} left-4 md:left-6`}
-      />
+        />
 
+      {/* Bg Image */}
       <div className="absolute inset-0">
         <img
           src="src/assets/images/map.png"
@@ -102,7 +138,8 @@ const Home = () => {
                 setActiveField,
                 suggestions,
                 setSuggestions,
-                loading
+                loading,
+                setFareApi
               }}
             />
           </motion.div>
@@ -120,7 +157,13 @@ const Home = () => {
             className={vehiclePanel}
           >
             <VehiclePanel
-              panelStates={{ setVehiclePanelOpen, setConfirmRideOpen }}
+              panelStates={{
+                setVehiclePanelOpen,
+                setConfirmRideOpen,
+                setSelectedVehicle,
+                vehicleData,
+                setFareApi
+              }}
             />
           </motion.div>
         )}
@@ -137,7 +180,15 @@ const Home = () => {
             className={`${vehiclePanel} h-[68%]`}
           >
             <ConfirmRide
-              panelStates={{ setConfirmRideOpen, setLookingforRider }}
+              panelStates={{
+                setConfirmRideOpen,
+                setLookingforRider,
+                pickup,
+                destination,
+                selectedVehicle,
+                vehicleData,
+                createRide
+              }}
             />
           </motion.div>
         )}
