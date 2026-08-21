@@ -1,8 +1,11 @@
 import { MapPinHouse, MapPinCheckInside, Wallet } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { buttonStyle } from "../utils/classes";
 import bikeImage from "../assets/images/bike.png";
 import autoImage from "../assets/images/auto.png";
+import carImage from "../assets/images/car.svg";
 const Summary = ({panelStates}) => {
+  const navigate = useNavigate();
   const { ride } = panelStates;
   const captain = ride?.captain;
   const vehicle = captain?.vehicle;
@@ -16,7 +19,7 @@ const Summary = ({panelStates}) => {
     : vehicleType === "auto"
       ? autoImage
     : vehicleType === "car" 
-    ? "https://imgs.search.brave.com/5dI1XjS7et0fBxAWF_crbf9sSiDgNk2YKJLK8PGvA5o/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2E3LzQ0/L2JiL2E3NDRiYjY2/NDBjOTg1Y2Y3MjM5/NWFlN2M2MWYzZWVk/LmpwZw"
+    ? carImage
     : undefined
     
 
@@ -59,7 +62,11 @@ const Summary = ({panelStates}) => {
           <h6 className="text-xs text-gray-500">Cash</h6>
         </div>
       </div>
-      {panelStates.showButton && <button className={buttonStyle}> Make Payment</button>}
+      {panelStates.showButton && (
+        <button className={buttonStyle} onClick={() => navigate("/home")}>
+          Make Payment
+        </button>
+      )}
     </section>
   );
 };

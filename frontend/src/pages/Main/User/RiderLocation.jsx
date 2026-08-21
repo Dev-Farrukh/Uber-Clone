@@ -6,6 +6,7 @@ import { House } from 'lucide-react';
 import { topIcon } from "../../../utils/classes";
 import logoImage from "../../../assets/images/yellow_logo.png";
 import mapImage from "../../../assets/images/map.png";
+import LiveTracking from "../../../components/LiveTracking";
 
 
 const RiderLocation = () => {
@@ -25,11 +26,7 @@ const RiderLocation = () => {
       />
 
       <div className="absolute inset-0">
-        <img
-          src={mapImage}
-          alt="Map"
-          className="h-full w-full object-cover"
-        />
+        <LiveTracking />
       </div>
 
         <div className="absolute bottom-0 left-0 right-0 bg-white p-4 shadow-lg w-full rounded-t-3xl md:top-6 md:left-6 md:w-105 md:h-[80%] z-20 md:rounded-xl md:shadow-2xl">

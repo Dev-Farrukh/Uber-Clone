@@ -51,7 +51,6 @@ const FinishRide = ({ panelStates }) => {
       <button
         className={buttonStyle}
         onClick={() => {
-          panelStates.setLookingforRider(true);
           endRide()
         }}
       >
