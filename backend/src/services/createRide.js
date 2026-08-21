@@ -1,4 +1,5 @@
 import rideModel from "../model/ride.model.js";
+import riderModel from "../model/rider.model.js";
 import { getAddressCoordinate, getDistance } from "./getRideDetail.js"
 import crypto from "crypto"
 
@@ -73,6 +74,27 @@ export const generateOTP = (length) => {
     const otp = crypto.randomInt(min, max + 1);
     return otp;
 };
+
+export const getRiderinRadius = async (ltd, lng , radius) => {
+    const latitude = Number(ltd);
+    const longitude = Number(lng);
+
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+        throw new Error("Invalid pickup coordinates");
+    }
+
+      // radius in km
+    const captains = await riderModel.find({
+        location: {
+            $geoWithin: {
+                $centerSphere: [ [ longitude, latitude ], radius / 6371 ]
+            }
+        }
+    });
+
+    return captains;
+
+}
 
 const createRide = async ({vehicleType , pickup , destination , user}) => {
     try {

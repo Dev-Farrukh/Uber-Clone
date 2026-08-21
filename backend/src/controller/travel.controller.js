@@ -1,6 +1,9 @@
 import { validationResult } from "express-validator"
 import { getAddressCoordinate, getDistance, getSuggestion } from "../services/getRideDetail.js"
-import createRide, { generateFare } from "../services/createRide.js"
+import createRide, { generateFare, getRiderinRadius } from "../services/createRide.js"
+import { sendMessageToSocketId } from "../../socket.js"
+import riderModel from "../model/rider.model.js"
+import rideModel from "../model/ride.model.js"
 
 export const getCoordinate = async (req, res) => {
     const error = validationResult(req)
@@ -39,8 +42,25 @@ export const generateRide = async (req, res) => {
     }
     const { vehicleType , pickup, destination } = req.query
     const user = req.user
-    console.log("DSS",user)
+
+    const pickupCoordinates = await getAddressCoordinate(pickup)
+    if (!pickupCoordinates?.length) {
+        return res.status(400).json({ message: "Could not find pickup coordinates" })
+    }
+
+    const pickupLocation = pickupCoordinates[0]
+    const riderInRadius = await getRiderinRadius(pickupLocation.lat, pickupLocation.lon, 10)
+
+    console.log("DSS",riderInRadius)
     const ride = await createRide({ vehicleType ,pickup, destination, user})
+    ride.otp = ""
+    const rideWithUser = await  rideModel.findOne({_id : ride._id}).populate('user')
+    riderInRadius.map(captain => {
+        sendMessageToSocketId(captain.socketId , {
+            event : "new-ride",
+            data : rideWithUser
+        })
+    })
     return res.status(201).json({
         message: " Ride created successfully",
         ride

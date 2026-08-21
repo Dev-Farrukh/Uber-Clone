@@ -59,15 +59,23 @@ const riderSchema = new mongoose.Schema({
         type : String ,
     },
     location : {
-        longitude : {
-            type : Number
+        type : {
+            type : String,
+            enum : ["Point"],
+            default : "Point"
         },
-        latitude : {
-            type : Number
+        coordinates : {
+            type : [Number],
+            validate : {
+                validator : value => value.length === 2,
+                message : "Location must contain longitude and latitude"
+            }
         }
     }
 
 })
+
+riderSchema.index({ location : "2dsphere" });
 
 riderSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({ _id: this._id }, envVariables.JWT_SECRET, { expiresIn: '48h' });
