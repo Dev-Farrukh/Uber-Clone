@@ -1,6 +1,6 @@
 import express from "express"
-import {userTokenCheck} from "../middleware/auth.middleware.js"
-import { query } from "express-validator"
+import {riderTokenCheck, userTokenCheck} from "../middleware/auth.middleware.js"
+import { body, query } from "express-validator"
 import  * as travelController from "../controller/travel.controller.js";
 
 const router = express.Router();
@@ -31,5 +31,9 @@ router.get("/fare" , [
     query("pickup").isLength({min : 3}).withMessage("Invalid pickup"),
     query("destination").isLength({min : 3}).withMessage("Invalid destination"),
 ] , userTokenCheck , travelController.getFare)
+
+router.post("/confirm-ride" , [
+    body("rideId").isMongoId().withMessage("Invalid MongoDB ObjectId")
+] , riderTokenCheck , travelController.confirmThisRide)
 
 export default router

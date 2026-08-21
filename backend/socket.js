@@ -71,10 +71,15 @@ export function initializeSocket(server) {
 }
 
 export const sendMessageToSocketId = (socketId, messageObject) => {
-    console.log(messageObject);
+    console.log('Sending socket message:', { socketId, event: messageObject.event });
 
     if (io) {
+        if (!socketId) {
+            console.error('Socket ID is missing, cannot send message');
+            return;
+        }
         io.to(socketId).emit(messageObject.event, messageObject.data);
+        console.log(`Message sent to ${socketId}`);
     } else {
         console.log('Socket.io not initialized.');
     }

@@ -16,10 +16,10 @@ const RiderProtected = () => {
                 navigate('/rider-login' , {replace : true})
                 return 
         }
-        axios.get(`${import.meta.env.VITE_BASE_URL}rider/profile` ,{ headers : { Authorization : `Bearer ${token}`}}
+        axios.get(`${import.meta.env.VITE_BASE_URL}rider/profile` ,{ headers : { Authorization : `Bearer ${token}`} }
          ).then((response)=>{
-            if(response?.data?.user){
-                setRider(response.data.user)
+            if(response?.data?._id){
+                setRider(response.data)
             }
         }).catch((error) => {
             console.error(error);

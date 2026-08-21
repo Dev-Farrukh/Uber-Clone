@@ -2,7 +2,8 @@ import { headingStyle } from "../utils/classes"
 import { ChevronDown, MapPinHouse, MapPinCheckInside, Wallet } from "lucide-react"
 
 const LookingForRider = ({ panelStates }) => {
-    const { selectedVehicle } = panelStates
+    const { pickup, destination, selectedVehicle, vehicleData } = panelStates
+    const fare = vehicleData?.data?.fare?.calculatedFare?.[selectedVehicle?.type]
 
     return (
         <section className="px-4 h-full flex flex-col">
@@ -22,24 +23,24 @@ const LookingForRider = ({ panelStates }) => {
             <div className="border-b border-gray-300 flex gap-4 items-center p-2 mt-4">
                 <MapPinCheckInside />
                 <div>
-                    <h3 className="text-[18px] tracking-wide  font-semibold">B-564 , Sector 35/A</h3>
-                    <h6 className="text-xs text-gray-500">Umar Farooq Masjid , Korangi</h6>
+                    <h3 className="text-[12px] tracking-wide font-semibold">{pickup}</h3>
+                    <h6 className="text-xs text-gray-500">Pickup location</h6>
                 </div>
             </div>
             {/* Destination  */}
             <div className="border-b border-gray-300 flex gap-4 items-center p-2 my-3">
                 <MapPinHouse />
                 <div>
-                    <h3 className="text-[18px] tracking-wide  font-semibold">D-484 , Sector 25/D</h3>
-                    <h6 className="text-xs text-gray-500">The Educators School , Korangi</h6>
+                    <h3 className="text-[12px] tracking-wide font-semibold">{destination}</h3>
+                    <h6 className="text-xs text-gray-500">Destination</h6>
                 </div>
             </div>
             {/* Cash */}
             <div className="border-b border-gray-300 flex gap-4 items-center p-2 mb-4">
                 <Wallet />
                 <div>
-                    <h3 className="text-[18px] tracking-wide  font-semibold">4563.66</h3>
-                    <h6 className="text-xs text-gray-500">Karachi</h6>
+                    <h3 className="text-[18px] tracking-wide font-semibold">Rs {fare}</h3>
+                    <h6 className="text-xs text-gray-500">Cash</h6>
                 </div>
             </div>
         </section>

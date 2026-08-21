@@ -7,6 +7,9 @@ import LookingForRider from "../../../components/LookingForRider";
 import Summary from "../../../components/Summary";
 import { topIcon } from "../../../utils/classes";
 import apiClient from "../../../api/axiosClient";
+import { useContext } from "react";
+import { SocketContext } from "../../Context/SocketContext";
+import { MainContext } from "../../Context/Context";
 
 const searchPanel = "absolute bg-white z-20 md:top-6 md:left-6 md:w-105 md:rounded-xl md:shadow-2xl md:p-6";
 const searchPanelOpen = `${searchPanel} top-0 w-full p-4 flex flex-col md:max-h-[calc(100vh-48px)]`;
@@ -27,14 +30,53 @@ const Home = () => {
   const [vehicleData, setVehicleData] = useState(null)
   const [selectedVehicle, setSelectedVehicle] = useState(null)
   const [fareApi, setFareApi] = useState(false)
+  const [rideId, setRideId] = useState(null)
+  const [confirmedRide, setConfirmedRide] = useState(null)
 
-  const createRide = () => apiClient.post("create-ride", null, {
-    params: {
-      vehicleType: selectedVehicle.type,
-      pickup,
-      destination
+  const { socket } = useContext(SocketContext)
+  const user = useContext(MainContext)
+
+  //  Socket Connection 
+  useEffect(() => {
+    if (!user?.user?._id) return;
+
+    const joinUser = () => {
+      socket.emit("join", { userType: "user", userId: user.user._id }, (response) => {
+        if (!response?.success) {
+          console.error("Could not save socket ID:", response?.message);
+        }
+      });
+    };
+
+    if (socket.connected) {
+      joinUser();
+    } else {
+      socket.once("connect", joinUser);
     }
-  })
+
+    return () => socket.off("connect", joinUser);
+  }, [socket, user?.user?._id])
+
+  // Listen for ride-confirmed event
+  useEffect(() => {
+    const handleRideConfirmed = (ride) => {
+      console.log("Ride confirmed by rider:", ride);
+      setConfirmedRide(ride);
+      setLookingforRider(false);
+      setSummary(true);
+    };
+
+    console.log('Setting up ride-confirmed listener');
+    socket.on('ride-confirmed', handleRideConfirmed);
+
+    return () => {
+      console.log('Cleaning up ride-confirmed listener');
+      socket.off('ride-confirmed', handleRideConfirmed);
+    };
+  }, [socket])
+
+    
+
 
   // Api For HomePage 
 
@@ -75,7 +117,7 @@ const Home = () => {
   }, [pickup, destination, activeField]);
 
   // Getting Fare
-  useEffect(()=> {
+  useEffect(() => {
     if (!fareApi) return;
 
     const fetchFare = async () => {
@@ -92,6 +134,29 @@ const Home = () => {
     fetchFare();
   }, [fareApi, pickup, destination])
 
+  //Creating Ride 
+  const createRide = async () => {
+    try {
+      const response = await apiClient.post("create-ride", null, {
+        params: {
+          vehicleType: selectedVehicle.type,
+          pickup,
+          destination
+        }
+      });
+      
+      if (response.data?.ride?._id) {
+        setRideId(response.data.ride._id);
+      }
+      
+      return response;
+    } catch (error) {
+      console.error("Error creating ride:", error);
+      throw error;
+    }
+  }
+
+
   return (
     <section className="relative h-dvh overflow-hidden bg-gray-100 font-poppins">
       {/* Logo */}
@@ -100,7 +165,7 @@ const Home = () => {
         alt="Logo"
         fetchPriority="high"
         className={`${topIcon} left-4 md:left-6`}
-        />
+      />
 
       {/* Bg Image */}
       <div className="absolute inset-0">
@@ -202,10 +267,16 @@ const Home = () => {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`${vehiclePanel} h-[68%]`}
+            className={`${vehiclePanel} h-[70%]`}
           >
             <LookingForRider
-              panelStates={{ setConfirmRideOpen, setLookingforRider, selectedVehicle }}
+              panelStates={{
+                setLookingforRider,
+                pickup,
+                destination,
+                selectedVehicle,
+                vehicleData
+              }}
             />
           </motion.div>
         )}
@@ -219,10 +290,10 @@ const Home = () => {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`${vehiclePanel} h-[68%]`}
+            className={`${vehiclePanel} h-[75%]`}
           >
             <Summary
-              panelStates={{ setSummary, setLookingforRider }}
+              panelStates={{ setSummary, setLookingforRider, ride: confirmedRide }}
             />
           </motion.div>
         )}

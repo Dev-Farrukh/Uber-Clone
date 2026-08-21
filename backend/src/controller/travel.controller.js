@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator"
 import { getAddressCoordinate, getDistance, getSuggestion } from "../services/getRideDetail.js"
-import createRide, { generateFare, getRiderinRadius } from "../services/createRide.js"
+import createRide, { generateFare, getRiderinRadius , confirmRide } from "../services/createRide.js"
 import { sendMessageToSocketId } from "../../socket.js"
 import riderModel from "../model/rider.model.js"
 import rideModel from "../model/ride.model.js"
@@ -90,4 +90,29 @@ export const getFare = async (req , res ) => {
 
 
 
+}
+
+export const confirmThisRide = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { rideId } = req.body;
+
+    try {
+        console.log('Confirming ride:', rideId, 'for rider:', req.rider._id);
+        const ride = await confirmRide({ rideId, rider: req.rider });
+        console.log('Ride confirmed:', ride._id, 'User socketId:', ride.user.socketId);
+
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-confirmed',
+            data: ride
+        })
+
+        return res.status(200).json(ride);
+    } catch (err) {
+        console.error('Error confirming ride:', err);
+        return res.status(500).json({ message: err.message });
+    }
 }

@@ -1,8 +1,14 @@
 import { MapPinHouse, MapPinCheckInside, Wallet } from "lucide-react";
 import { buttonStyle , headingStyle} from "../utils/classes";
 import { Link } from "react-router-dom";
+import ConfirmRide from "./ConfirmRide";
 
 const RideAvailable = ({ panelStates }) => {
+  const { ride } = panelStates
+  const riderName = [ride?.user?.fullName?.firstName, ride?.user?.fullName?.lastName]
+    .filter(Boolean)
+    .join(" ") || "User"
+
   return (
     <section className="px-4 h-full flex flex-col">
       <h1 className={`${headingStyle} my-3 pt-3 `}>{ panelStates.isConfirm ? "Confirm Ride" : "New Ride Available !!"} </h1>
@@ -13,23 +19,23 @@ const RideAvailable = ({ panelStates }) => {
             alt="PP"
             className="size-15 rounded-full object-cover"
           />
-          <h2 className="text-xl tracking-wide font-semibold text-white">Chris Parker</h2>
+          <h2 className="text-xl tracking-wide font-semibold text-white">{riderName}</h2>
         </div>
 
         <div className="flex flex-col items-end">
-          <h2 className="text-xl tracking-wide font-semibold text-white">Rs 450.24</h2>
-          <p className="text-sm text-gray-100"> 2.2 km</p>
+          <h2 className="text-xl tracking-wide font-semibold text-white">Rs {ride?.fare ?? "-"}</h2>
+          <p className="text-sm text-gray-100">{ride?.distance ?? "-"} km</p>
         </div>
       </div>
       {/* Pickup  */}
       <div className="border-b border-gray-300 flex gap-4 items-center py-2 mt-4">
         <MapPinCheckInside />
         <div>
-          <h3 className="text-[18px] tracking-wide  font-semibold">
-            B-564 , Sector 35/A
+          <h3 className="text-[12px] tracking-wide  font-semibold">
+            {ride?.pickup ?? "Pickup location"}
           </h3>
           <h6 className="text-xs text-gray-500">
-            Umar Farooq Masjid , Korangi
+            Pickup location
           </h6>
         </div>
       </div>
@@ -37,11 +43,11 @@ const RideAvailable = ({ panelStates }) => {
       <div className="border-b border-gray-300 flex gap-4 items-center py-2 my-3">
         <MapPinHouse />
         <div>
-          <h3 className="text-[18px] tracking-wide  font-semibold">
-            D-484 , Sector 25/D
+          <h3 className="text-[12px] tracking-wide  font-semibold">
+            {ride?.destination ?? "Destination"}
           </h3>
           <h6 className="text-xs text-gray-500">
-            The Educators School , Korangi
+            Destination
           </h6>
         </div>
       </div>
@@ -49,8 +55,8 @@ const RideAvailable = ({ panelStates }) => {
       <div className="border-b border-gray-300 flex gap-4 items-center py-2 mb-4">
         <Wallet />
         <div>
-          <h3 className="text-[18px] tracking-wide  font-semibold">4563.66</h3>
-          <h6 className="text-xs text-gray-500">Karachi</h6>
+          <h3 className="text-[18px] tracking-wide  font-semibold">Rs {ride?.fare ?? "-"}</h3>
+          <h6 className="text-xs text-gray-500">Cash</h6>
         </div>
       </div>
       <div className={`flex justify-end items-center gap-4 my-2 ${panelStates.isConfirm ? "flex-col" : "flex-row"} bg-white`}>
@@ -63,7 +69,7 @@ const RideAvailable = ({ panelStates }) => {
         {panelStates.isConfirm ?
          <Link className={`${buttonStyle} px-12 hover:bg-green-500 w-full text-center `} to="/riding" >Confirm</Link>
          :
-         <button className={`${buttonStyle} px-12 hover:bg-green-500 `} onClick={()=> panelStates.setIsConfirm(true)} > Accept</button>
+         <button className={`${buttonStyle} px-12 hover:bg-green-500 `} onClick={()=> {panelStates.setIsConfirm(true) ; panelStates.confirmRideAPI()}} > Accept</button>
          }
         <button 
         className={`${buttonStyle} px-12 bg-gray-400 hover:bg-red-500 ${panelStates.isConfirm && "w-full"}`} 

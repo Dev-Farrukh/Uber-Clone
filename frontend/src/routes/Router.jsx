@@ -34,10 +34,10 @@ const Router = () => {
 
 
       {/* Protected  Rider*/}
-      <Route path="/rider" element={<RiderHome />} />
-      <Route path="/riding" element={<Riding />} />
 
       <Route element={<RiderProtected />}>
+      <Route path="/rider" element={<RiderHome />} />
+      <Route path="/riding" element={<Riding />} />
         <Route path="/rider-logout" element={<RiderLogout />} />
       </Route>
     </Routes>
