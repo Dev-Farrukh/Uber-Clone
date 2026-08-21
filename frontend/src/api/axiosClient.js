@@ -8,7 +8,7 @@ const apiClient = axios.create({
 // Request Interceptor: Automatically attach Bearer token to every request
 apiClient.interceptors.request.use(
   (config) => {
-    const riderEndpoints = ["confirm-ride", "start-ride"];
+    const riderEndpoints = ["confirm-ride", "start-ride", "end-ride"];
     const usesRiderToken = riderEndpoints.some((endpoint) => config.url?.includes(endpoint));
     const tokenKey = usesRiderToken ? "riderToken" : "userToken";
     const token = localStorage.getItem(tokenKey);

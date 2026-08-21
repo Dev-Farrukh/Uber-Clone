@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator"
 import { getAddressCoordinate, getDistance, getSuggestion } from "../services/getRideDetail.js"
-import createRide, { generateFare, getRiderinRadius , confirmRide, rideStart } from "../services/createRide.js"
+import createRide, { generateFare, getRiderinRadius , confirmRide, rideStart, rideEnd } from "../services/createRide.js"
 import { sendMessageToSocketId } from "../../socket.js"
 import riderModel from "../model/rider.model.js"
 import rideModel from "../model/ride.model.js"

@@ -200,17 +200,17 @@ export const rideEnd = async ({ rideId, captain }) => {
         throw new Error('Ride not found');
     }
 
-    if (ride.status !== 'ongoing') {
+    if (ride.status?.toLowerCase() !== 'ongoing') {
         throw new Error('Ride not ongoing');
     }
 
-    await rideModel.findOneAndUpdate({
+    const completedRide = await rideModel.findOneAndUpdate({
         _id: rideId
     }, {
-        status: 'completed'
-    })
+        status: 'Completed'
+    }, { new: true }).populate('user').populate('captain').select('+otp');
 
-    return ride;
+    return completedRide;
 }
 
 
