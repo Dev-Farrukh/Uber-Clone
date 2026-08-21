@@ -2,6 +2,7 @@ import { ChevronDown, User } from "lucide-react"
 import { headingStyle } from "../utils/classes"
 import bikeImage from "../assets/images/bike.png"
 import autoImage from "../assets/images/auto.png"
+import carImage from "../assets/images/car.svg"
 
 const VehiclePanel = ({ panelStates }) => {
   const isLoading = panelStates?.isFareLoading || !panelStates?.vehicleData?.data?.fare;
