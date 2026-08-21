@@ -30,7 +30,7 @@ const Summary = ({panelStates}) => {
         <div className="flex flex-col items-end">
           <h4 className="text-base">{riderName}</h4>
           <h2 className="text-xl tracking-wide font-semibold">{vehicle?.plate || "Plate unavailable"}</h2>
-          <p className="text-sm text-gray-500">Your otp is <b>{ride.otp}</b></p>
+          <p className="text-sm text-gray-500">Your otp is <b>{ride?.otp}</b></p>
         </div>
       </div>
       {/* Pickup  */}

@@ -2,6 +2,8 @@ import { ChevronDown, Info, MapPinHouse } from "lucide-react";
 import { buttonStyle, headingStyle } from "../utils/classes";
 
 const FinishRide = ({ panelStates }) => {
+  console.log("temp" , panelStates);
+  
   return (
     <section className="px-4 h-full flex flex-col">
       <ChevronDown
@@ -13,12 +15,12 @@ const FinishRide = ({ panelStates }) => {
       <div className="flex gap-2 items-center my-3 flex-row">
         <img
           src={
-            "https://imgs.search.brave.com/Z74aCVY8Mb-9zXX5UBejAdWTH1YLxOq6r7v7EKm0oAY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/c2h1dHRlcnN0b2Nr/LmNvbS9pbWFnZS1w/aG90by9yYW5kb20t/d2hpdGUtcGVyc29u/LWNpcmNsZS1wcm9m/aWxlLTI2MG53LTI1/OTg2MDc0NDcuanBn"
+            "https://imgs.search.brave.com/vETsjfyRHQZNvoyfI26SD9n2agjVrTIrEHeZDpKFRjA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/bWFnbmlmaWMuY29t/L3ByZW1pdW0tcGhv/dG8vcG9ydHJhaXQt/cGVyc29uLW1hbi0z/MHMtYmxvbmRlLWhh/aXIteWVsbG93LWds/YXNzZXMtYnJpZ2h0/LWNvbG9yZnVsLWNs/b3RoZXMtc2xpZ2h0/LXNtaWxlXzExOTg5/MTktMzc3LmpwZz9z/ZW10PWFpc19oeWJy/aWQmdz03NDAmcT04/MA"
           }
           alt="PP"
-          className="size-15 rounded-full object-contain "
+          className="size-15 rounded-full object-cover "
         />
-        <h2 className="text-xl tracking-wide font-semibold">Jimmy Rose</h2>
+        <h2 className="text-xl tracking-wide font-semibold">{panelStates?.ride?.user?.fullName?.firstName}</h2>
       </div>
 
       {/* Destination  */}
@@ -26,10 +28,10 @@ const FinishRide = ({ panelStates }) => {
         <MapPinHouse />
         <div>
           <h3 className="text-[18px] tracking-wide  font-semibold">
-            D-484 , Sector 25/D
+            {panelStates?.ride?.destination.split(" ").slice(0, 3).join(" ")}
           </h3>
           <h6 className="text-xs text-gray-500">
-            The Educators School , Korangi
+            {panelStates?.ride?.destination}
           </h6>
         </div>
       </div>

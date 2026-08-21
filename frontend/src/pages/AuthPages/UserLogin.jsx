@@ -20,7 +20,7 @@ const UserLogin = () => {
       setLoading(true)
       const response = await axios.post(import.meta.env.VITE_BASE_URL + 'user/login', payload, { withCredentials: true })
       // Path : console.log("Hello ", response.data.user) 
-      localStorage.setItem("token" , response.data.token)
+      localStorage.setItem("userToken" , response.data.token)
 
       setUser(response?.data?.user)
       navigate("/home")

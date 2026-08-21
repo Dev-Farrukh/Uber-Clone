@@ -9,7 +9,7 @@ const UserProtected = () => {
     const navigate = useNavigate()
     
     useEffect(() => {
-        const isToken = localStorage.getItem("token")
+        const isToken = localStorage.getItem("userToken")
         if (!isToken) {
                 navigate('/login')
                 return 
@@ -24,7 +24,7 @@ const UserProtected = () => {
             }
         }).catch((error) => {
             console.error(error);
-            localStorage.removeItem('token')
+            localStorage.removeItem('userToken')
             navigate('/login')
             return 
         }).finally(() => {

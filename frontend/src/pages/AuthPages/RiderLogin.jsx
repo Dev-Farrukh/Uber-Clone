@@ -21,7 +21,7 @@ const RiderLogin = () => {
     try {
       setLoading(true)
       const response = await axios.post(import.meta.env.VITE_BASE_URL + 'rider/login', payload, { withCredentials: true })
-      localStorage.setItem("token" , response.data.token)
+      localStorage.setItem("riderToken" , response.data.token)
       setRider(response?.data?.rider)
       navigate("/rider")
 

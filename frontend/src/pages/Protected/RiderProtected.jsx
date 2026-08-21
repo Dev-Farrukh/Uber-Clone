@@ -10,7 +10,7 @@ const RiderProtected = () => {
     const navigate = useNavigate()
     
     useEffect(() => {
-        const token = localStorage.getItem("token")
+        const token = localStorage.getItem("riderToken")
         if (!token) {
                 toast.error("Something went wrong")
                 navigate('/rider-login' , {replace : true})
@@ -23,7 +23,7 @@ const RiderProtected = () => {
             }
         }).catch((error) => {
             console.error(error);
-            localStorage.removeItem('token')
+            localStorage.removeItem('riderToken')
             setLoading(false)
             navigate('/rider-login')
         }).finally(() => {

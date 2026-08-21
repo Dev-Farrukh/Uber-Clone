@@ -5,7 +5,7 @@ import userModel from "../model/user.model.js";
 import riderModel from "../model/rider.model.js";
 
 export const userTokenCheck = async (req, res, next) => {
-    const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
+    const token = req.headers.authorization?.split(" ")[1] || req.cookies?.token;
     
     if (!token) {
         return res.status(401).json({ message: "Unauthorized" });
@@ -32,7 +32,7 @@ export const userTokenCheck = async (req, res, next) => {
 }
 
 export const riderTokenCheck = async (req, res, next) => {
-    const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
+    const token = req.headers.authorization?.split(" ")[1] || req.cookies?.token;
     if(!token){
         return res.status(404).json({message : "Unauthorized"});
     }

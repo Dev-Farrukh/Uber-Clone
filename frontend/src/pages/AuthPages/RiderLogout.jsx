@@ -7,14 +7,14 @@ const RiderLogout = () => {
     const navigate = useNavigate()
     useEffect(() => {
         const logout = async () => {
-            const token = localStorage.getItem("token")
+            const token = localStorage.getItem("riderToken")
             try {
                 await axios.get(`${import.meta.env.VITE_BASE_URL}rider/logout`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 })
-                localStorage.removeItem("token")
+                localStorage.removeItem("riderToken")
                 navigate('/rider-login')
                 toast.success("Logout Success")
             } catch (error) {

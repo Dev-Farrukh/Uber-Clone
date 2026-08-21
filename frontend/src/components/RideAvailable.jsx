@@ -8,14 +8,30 @@ import toast from "react-hot-toast";
 const RideAvailable = ({ panelStates }) => {
   const { ride } = panelStates
   const [otp , setOtp] = useState("")
+  const [isConfirming, setIsConfirming] = useState(false)
+  const [isStarting, setIsStarting] = useState(false)
   const navigate = useNavigate()
 
   const riderName = [ride?.user?.fullName?.firstName, ride?.user?.fullName?.lastName]
     .filter(Boolean)
     .join(" ") || "User"
 
+  const acceptRideHandler = async () => {
+    setIsConfirming(true)
+    try {
+      await panelStates.confirmRideAPI()
+      panelStates.setIsConfirm(true)
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to confirm ride")
+    } finally {
+      setIsConfirming(false)
+    }
+  }
+
   const confirmHandler = async (e) => {
     e.preventDefault()
+
+    if (isStarting) return
 
     if (!otp || otp.length < 4 || otp.length > 6) {
       toast.error("Invalid OTP")
@@ -23,6 +39,7 @@ const RideAvailable = ({ panelStates }) => {
     }
 
     try {
+      setIsStarting(true)
       const response = await apiClient.get("start-ride", {
         params: {
           rideId: ride._id,
@@ -31,11 +48,15 @@ const RideAvailable = ({ panelStates }) => {
       })
 
       if (response.status === 200) {
-        navigate("/rider-location")
+        console.log("response" , response);
+        
+        navigate("/riding", { state: { ride: response.data } })
       }
     } catch (error) {
       console.error("Error starting ride:", error)
       toast.error(error.response?.data?.message || "Invalid OTP")
+    } finally {
+      setIsStarting(false)
     }
   }
 
@@ -100,11 +121,17 @@ const RideAvailable = ({ panelStates }) => {
         }
         {panelStates.isConfirm ?
         //  <Link className={`${buttonStyle} px-12 hover:bg-green-500 w-full text-center `} to="/riding" >Confirm</Link>
-         <button onClick={(e)=>confirmHandler(e)} className={`${buttonStyle} px-12 hover:bg-green-500 w-full text-center `} to="/riding" >
-          Confirm
+         <button disabled={isStarting} onClick={(e)=>confirmHandler(e)} className={`${buttonStyle} px-12 hover:bg-green-500 w-full text-center `} to="/riding" >
+          {isStarting ? "Starting..." : "Confirm"}
           </button>
          :
-         <button className={`${buttonStyle} px-12 hover:bg-green-500 `} onClick={()=> {panelStates.setIsConfirm(true) ; panelStates.confirmRideAPI()}} > Accept</button>
+         <button
+          className={`${buttonStyle} px-12 hover:bg-green-500`}
+          disabled={isConfirming}
+          onClick={acceptRideHandler}
+        >
+          {isConfirming ? "Confirming..." : "Accept"}
+        </button>
          }
         <button 
         className={`${buttonStyle} px-12 bg-gray-400 hover:bg-red-500 ${panelStates.isConfirm && "w-full"}`} 

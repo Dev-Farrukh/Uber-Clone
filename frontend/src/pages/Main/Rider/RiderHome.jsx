@@ -83,15 +83,14 @@ const RiderHome = () => {
         rideId: ride._id,
       }, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${localStorage.getItem('riderToken')}`
         }
       });
       console.log('Ride confirmation response:', response.data);
-      // setRideAvailable(false);
-      // setIsConfirm(true);
+      return response.data;
     } catch (error) {
       console.error('Error confirming ride:', error);
-      alert('Failed to confirm ride: ' + (error.response?.data?.message || error.message));
+      throw error;
     }
   }
 

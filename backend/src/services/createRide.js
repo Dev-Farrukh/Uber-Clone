@@ -164,7 +164,8 @@ export const rideStart = async ({ rideId, otp, captain }) => {
         throw new Error('Ride not found');
     }
 
-    if (ride.status !== 'Accepted') {
+    const rideStatus = ride.status?.toLowerCase();
+    if (!['accepted', 'ongoing'].includes(rideStatus)) {
         throw new Error('Ride not accepted');
     }
 
@@ -172,11 +173,15 @@ export const rideStart = async ({ rideId, otp, captain }) => {
         throw new Error('Invalid OTP');
     }
 
-    await rideModel.findOneAndUpdate({
-        _id: rideId
-    }, {
-        status: 'Ongoing'
-    })
+    if (rideStatus === 'accepted') {
+        await rideModel.findOneAndUpdate({
+            _id: rideId,
+            captain: captain._id,
+            status: { $in: ['Accepted', 'accepted'] }
+        }, {
+            status: 'Ongoing'
+        })
+    }
 
     return ride;
 }

@@ -32,7 +32,6 @@ const Home = () => {
   const [vehicleData, setVehicleData] = useState(null)
   const [selectedVehicle, setSelectedVehicle] = useState(null)
   const [fareApi, setFareApi] = useState(false)
-  const [rideId, setRideId] = useState(null)
   const [confirmedRide, setConfirmedRide] = useState(null)
   const navigate = useNavigate()
 
@@ -72,10 +71,15 @@ const Home = () => {
     };
   }, [socket, user?.user?._id])
 
-  //Listen for ride start 
-  socket.on('ride-started' , (ride)=> {
-    navigate("/riding")
-  })
+  useEffect(() => {
+    const handleRideStarted = (ride) => {
+      navigate("/rider-location", { state: { ride } })
+    }
+
+    socket.on("ride-started", handleRideStarted)
+
+    return () => socket.off("ride-started", handleRideStarted)
+  }, [navigate, socket])
 
     
 
@@ -146,10 +150,6 @@ const Home = () => {
           destination
         }
       });
-      
-      if (response.data?.ride?._id) {
-        setRideId(response.data.ride._id);
-      }
       
       return response;
     } catch (error) {
