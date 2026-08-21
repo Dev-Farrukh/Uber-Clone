@@ -1,20 +1,28 @@
 import { ChevronDown, Info, MapPinHouse } from "lucide-react";
 import { buttonStyle, headingStyle } from "../utils/classes";
 import apiClient from "../api/axiosClient.js";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import profileAvatar from "../assets/images/profile-avatar.svg";
 
 const FinishRide = ({ panelStates }) => {
+  const [isEnding, setIsEnding] = useState(false);
   const navigate = useNavigate()
   async function endRide() {
-    const response = await apiClient.post("end-ride", {
-      rideId: panelStates?.ride?._id,
-    })
-    if(response.status === 200){
-      navigate("/rider")
-      panelStates.setFinishRide(false)
-      panelStates.setRide(null)
-      
+    if (isEnding || !panelStates?.ride?._id) return;
+
+    setIsEnding(true);
+    try {
+      await apiClient.post("end-ride", {
+        rideId: panelStates.ride._id,
+      });
+      panelStates.setFinishRide(false);
+      panelStates.setRide(null);
+      navigate("/rider", { replace: true });
+    } catch (error) {
+      console.error("Error ending ride:", error);
+    } finally {
+      setIsEnding(false);
     }
   }
   
@@ -49,11 +57,10 @@ const FinishRide = ({ panelStates }) => {
       </div>
       <button
         className={buttonStyle}
-        onClick={() => {
-          endRide()
-        }}
+        onClick={endRide}
+        disabled={isEnding}
       >
-        Finish
+        {isEnding ? "Finishing..." : "Finish"}
       </button>
       <h4 className="text-red-500 text-xs my-5 flex gap-2">
         <Info className="text-xs" size={15} />
