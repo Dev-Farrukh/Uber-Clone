@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title">
+  <title>Profile avatar</title>
+  <circle cx="60" cy="60" r="60" fill="#f3c744"/>
+  <circle cx="60" cy="44" r="22" fill="#fff7d6"/>
+  <path fill="#fff7d6" d="M22 108c4-24 18-36 38-36s34 12 38 36H22Z"/>
+  <path fill="#1f2937" d="M36 43c2-20 12-29 25-29 15 0 24 10 24 28-6-6-13-9-23-9-10 0-18 4-26 10Z"/>
+</svg>

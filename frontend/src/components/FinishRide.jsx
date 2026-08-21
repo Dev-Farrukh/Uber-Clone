@@ -2,6 +2,7 @@ import { ChevronDown, Info, MapPinHouse } from "lucide-react";
 import { buttonStyle, headingStyle } from "../utils/classes";
 import apiClient from "../api/axiosClient.js";
 import { useNavigate } from "react-router-dom";
+import profileAvatar from "../assets/images/profile-avatar.svg";
 
 const FinishRide = ({ panelStates }) => {
   const navigate = useNavigate()
@@ -26,10 +27,8 @@ const FinishRide = ({ panelStates }) => {
 
       <h1 className={headingStyle}>Finish Ride</h1>
       <div className="flex gap-2 items-center my-3 flex-row">
-        <img
-          src={
-            "https://imgs.search.brave.com/vETsjfyRHQZNvoyfI26SD9n2agjVrTIrEHeZDpKFRjA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/bWFnbmlmaWMuY29t/L3ByZW1pdW0tcGhv/dG8vcG9ydHJhaXQt/cGVyc29uLW1hbi0z/MHMtYmxvbmRlLWhh/aXIteWVsbG93LWds/YXNzZXMtYnJpZ2h0/LWNvbG9yZnVsLWNs/b3RoZXMtc2xpZ2h0/LXNtaWxlXzExOTg5/MTktMzc3LmpwZz9z/ZW10PWFpc19oeWJy/aWQmdz03NDAmcT04/MA"
-          }
+          <img
+            src={profileAvatar}
           alt="PP"
           className="size-15 rounded-full object-cover "
         />

@@ -1,4 +1,5 @@
 import { BookCheck, Clock, Gauge } from "lucide-react";
+import profileAvatar from "../assets/images/profile-avatar.svg";
 
 const RiderDetail = () => {
   return (
@@ -6,7 +7,7 @@ const RiderDetail = () => {
       <div className="flex justify-between p-4 items-center">
         <div className="flex gap-2 items-center justify-center flex-row">
           <img
-            src={"https://imgs.search.brave.com/Z74aCVY8Mb-9zXX5UBejAdWTH1YLxOq6r7v7EKm0oAY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/c2h1dHRlcnN0b2Nr/LmNvbS9pbWFnZS1w/aG90by9yYW5kb20t/d2hpdGUtcGVyc29u/LWNpcmNsZS1wcm9m/aWxlLTI2MG53LTI1/OTg2MDc0NDcuanBn"}
+            src={profileAvatar}
             alt="PP"
             className="size-15 rounded-full object-contain "
           />
