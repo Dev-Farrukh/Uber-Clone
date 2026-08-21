@@ -1,5 +1,7 @@
 import { ChevronDown, User } from "lucide-react"
 import { headingStyle } from "../utils/classes"
+import bikeImage from "../assets/images/bike.png"
+import autoImage from "../assets/images/auto.png"
 
 const VehiclePanel = ({ panelStates }) => {
   const isLoading = panelStates?.isFareLoading || !panelStates?.vehicleData?.data?.fare;
@@ -12,7 +14,7 @@ const VehiclePanel = ({ panelStates }) => {
       capacity: 1,
       eta: "10 mins away",
       description: "Fast Ride",
-      image: "/src/assets/images/bike.png",
+      image: bikeImage,
       fare: fareData?.calculatedFare?.bike
     },
     {
@@ -21,7 +23,7 @@ const VehiclePanel = ({ panelStates }) => {
       capacity: 3,
       eta: "7 mins away",
       description: "Comfortable ride",
-      image: "src/assets/images/auto.png",
+      image: autoImage,
       fare: fareData?.calculatedFare?.auto
     },
     {

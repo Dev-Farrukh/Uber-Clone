@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom"
+import rideImage from "../../assets/images/ride.png"
 
 const Start = () => {
     const navigate = useNavigate()
@@ -12,7 +13,7 @@ const Start = () => {
 
     {/* Ride Image */}
     <img
-        src="src/assets/images/ride.png"
+        src={rideImage}
         alt="Ride"
         className="w-64 sm:w-72 md:w-80 lg:w-96 object-contain"
     />

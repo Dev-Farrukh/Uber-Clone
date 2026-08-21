@@ -9,6 +9,7 @@ import { MainContext } from "../../Context/Context";
 import { SocketContext } from "../../Context/SocketContext";
 import apiClient from "../../../api/axiosClient.js"
 import LiveTracking from "../../../components/LiveTracking.jsx";
+import logoImage from "../../../assets/images/yellow_logo.png";
 
 
 const RiderHome = () => {
@@ -102,7 +103,7 @@ const RiderHome = () => {
         <LogOut strokeWidth={2.5}/>
       </Link>
       <img
-        src="/src/assets/images/yellow_logo.png"
+        src={logoImage}
         alt="Logo"
         fetchPriority="high"
         className={`${topIcon} left-4 md:left-6`}

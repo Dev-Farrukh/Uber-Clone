@@ -12,6 +12,7 @@ import { SocketContext } from "../../Context/SocketContext";
 import { MainContext } from "../../Context/Context";
 import { useNavigate } from "react-router-dom";
 import LiveTracking from "../../../components/LiveTracking";
+import logoImage from "../../../assets/images/yellow_logo.png";
 
 
 const searchPanel = "absolute bg-white z-20 md:top-6 md:left-6 md:w-105 md:rounded-xl md:shadow-2xl md:p-6";
@@ -164,7 +165,7 @@ const Home = () => {
     <section className="relative h-dvh overflow-hidden bg-gray-100 font-poppins">
       {/* Logo */}
       <img
-        src="/src/assets/images/yellow_logo.png"
+        src={logoImage}
         alt="Logo"
         fetchPriority="high"
         className={`${topIcon} left-4 md:left-6`}

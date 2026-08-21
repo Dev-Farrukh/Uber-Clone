@@ -6,7 +6,8 @@ body {
 }
 @font-face {
   font-family: "poppins";
-  src: url("src/assets/fonts/Poppins/Poppins-Regular.ttf");
+  src: url("./assets/fonts/Poppins/Poppins-Regular.ttf") format("truetype");
+  font-display: swap;
 }
 .font-poppins {
   font-family: "poppins";

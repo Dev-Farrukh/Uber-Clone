@@ -1,5 +1,6 @@
 import { headingStyle } from "../utils/classes"
 import { ChevronDown, MapPinHouse, MapPinCheckInside, Wallet } from "lucide-react"
+import bikeImage from "../assets/images/bike.png"
 
 const LookingForRider = ({ panelStates }) => {
     const { pickup, destination, selectedVehicle, vehicleData } = panelStates
@@ -11,7 +12,7 @@ const LookingForRider = ({ panelStates }) => {
                 className="cursor-pointer text-gray-600 hover:text-black transition-colors mx-auto my-2 " />
 
             <h1 className={headingStyle}>Looking For Rider</h1>
-            <img src={selectedVehicle?.image || "/src/assets/images/bike.png"}
+            <img src={selectedVehicle?.image || bikeImage}
                 alt={selectedVehicle?.name || "Bike"}
                 className="w-[30%] object-contain mx-auto "
             />

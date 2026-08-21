@@ -4,6 +4,8 @@ import Summary from "../../../components/Summary"
 import { Link } from "react-router-dom"
 import { House } from 'lucide-react';
 import { topIcon } from "../../../utils/classes";
+import logoImage from "../../../assets/images/yellow_logo.png";
+import mapImage from "../../../assets/images/map.png";
 
 
 const RiderLocation = () => {
@@ -16,7 +18,7 @@ const RiderLocation = () => {
         <House strokeWidth={2.5} />
       </Link>
       <img
-        src="/src/assets/images/yellow_logo.png"
+        src={logoImage}
         alt="Logo"
         fetchPriority="high"
         className="absolute top-4 left-4 w-12 md:w-14 z-10"
@@ -24,7 +26,7 @@ const RiderLocation = () => {
 
       <div className="absolute inset-0">
         <img
-          src="src/assets/images/map.png"
+          src={mapImage}
           alt="Map"
           className="h-full w-full object-cover"
         />

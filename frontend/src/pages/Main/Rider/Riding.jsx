@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { SocketContext } from "../../Context/SocketContext";
 import toast from "react-hot-toast"
 import LiveTracking from "../../../components/LiveTracking";
+import logoImage from "../../../assets/images/yellow_logo.png";
 
 const Riding = () => {
   const [finishRide, setFinishRide] = useState(false);
@@ -30,7 +31,7 @@ const Riding = () => {
           <LogOut strokeWidth={2.5} />
         </Link>
         <img
-          src="/src/assets/images/yellow_logo.png"
+          src={logoImage}
           alt="Logo"
           fetchPriority="high"
           className={`${topIcon} left-4 md:left-6`}
