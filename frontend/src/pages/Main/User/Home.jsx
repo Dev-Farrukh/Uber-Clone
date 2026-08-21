@@ -11,6 +11,7 @@ import { useContext } from "react";
 import { SocketContext } from "../../Context/SocketContext";
 import { MainContext } from "../../Context/Context";
 import { useNavigate } from "react-router-dom";
+import LiveTracking from "../../../components/LiveTracking";
 
 
 const searchPanel = "absolute bg-white z-20 md:top-6 md:left-6 md:w-105 md:rounded-xl md:shadow-2xl md:p-6";
@@ -171,11 +172,9 @@ const Home = () => {
 
       {/* Bg Image */}
       <div className="absolute inset-0">
-        <img
-          src="src/assets/images/map.png"
-          alt="Map"
-          className="h-full w-full object-cover"
-        />
+       {/* // className="h-full w-full object-cover" */}
+       <LiveTracking />
+       
       </div>
 
       {/* Search Result */}

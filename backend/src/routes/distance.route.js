@@ -42,4 +42,9 @@ router.get('/start-ride',
     riderTokenCheck ,travelController.startRide
 )
 
+router.post('/end-ride',
+    body('rideId').isMongoId().withMessage('Invalid ride id'),
+    riderTokenCheck ,travelController.endRide
+)
+
 export default router

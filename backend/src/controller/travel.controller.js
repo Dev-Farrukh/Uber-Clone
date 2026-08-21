@@ -137,3 +137,22 @@ export const startRide = async (req, res) => {
         return res.status(500).json({ message: err.message });
     }
 }
+
+export const endRide = async (req, res) => {
+     const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { rideId} = req.body
+    try {
+        const ride = await rideEnd({rideId , captain : req.rider})
+        sendMessageToSocketId(ride.user.socketId , {
+            event : "ride-ended",
+            data : ride
+        })
+        return res.status(200).json(ride)
+    } catch (error) {
+        return res.status(500).json({message : error.message })
+    }
+}

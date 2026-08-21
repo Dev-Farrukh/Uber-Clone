@@ -1,22 +1,28 @@
 import { LogOut, MoveUp } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { buttonStyle, topIcon } from "../../../utils/classes";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import FinishRide from "../../../components/FinishRide";
+import { useContext } from "react";
+import { SocketContext } from "../../Context/SocketContext";
+import toast from "react-hot-toast"
+import LiveTracking from "../../../components/LiveTracking";
 
 const Riding = () => {
   const [finishRide, setFinishRide] = useState(false);
   const { state } = useLocation();
   const ride = state?.ride;
-  console.log("ff",state);
-  
-  const userName = [ride?.user?.fullName?.firstName, ride?.user?.fullName?.lastName]
-    .filter(Boolean)
-    .join(" ") || "User";
+  const {socket} = useContext(SocketContext)
+  const navigate = useNavigate()
   const panelClass =
     "absolute bottom-0 left-0 w-full bg-white rounded-t-3xl z-30 h-[82%] md:top-6 md:left-6 md:w-105 md:h-[80%] md:rounded-xl md:shadow-2xl";
 
+  socket.on("ride-ended" , ()=> {
+    navigate("/home")
+    toast.success("Ride Completed")
+  })
+  
   return (
     <div>
       <section className="relative h-dvh overflow-hidden bg-gray-100 font-poppins">
@@ -31,11 +37,7 @@ const Riding = () => {
         />
 
         <div className="absolute inset-0">
-          <img
-            src="/src/assets/images/map.png"
-            alt="Map"
-            className="h-full w-full object-cover"
-          />
+          <LiveTracking />
         </div>
 
         <AnimatePresence>

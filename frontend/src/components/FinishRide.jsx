@@ -1,8 +1,21 @@
 import { ChevronDown, Info, MapPinHouse } from "lucide-react";
 import { buttonStyle, headingStyle } from "../utils/classes";
+import apiClient from "../api/axiosClient.js";
+import { useNavigate } from "react-router-dom";
 
 const FinishRide = ({ panelStates }) => {
-  console.log("temp" , panelStates);
+  const navigate = useNavigate()
+  async function endRide() {
+    const response = await apiClient.post("end-ride", {
+      rideId: panelStates?.ride?._id,
+    })
+    if(response.status === 200){
+      panelStates.setFinishRide(false)
+      panelStates.setRide(null)
+      navigate("/rider")
+      
+    }
+  }
   
   return (
     <section className="px-4 h-full flex flex-col">
@@ -39,6 +52,7 @@ const FinishRide = ({ panelStates }) => {
         className={buttonStyle}
         onClick={() => {
           panelStates.setLookingforRider(true);
+          endRide()
         }}
       >
         Finish

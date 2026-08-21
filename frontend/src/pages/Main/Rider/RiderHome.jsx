@@ -8,6 +8,7 @@ import { topIcon } from "../../../utils/classes";
 import { MainContext } from "../../Context/Context";
 import { SocketContext } from "../../Context/SocketContext";
 import apiClient from "../../../api/axiosClient.js"
+import LiveTracking from "../../../components/LiveTracking.jsx";
 
 
 const RiderHome = () => {
@@ -108,11 +109,7 @@ const RiderHome = () => {
       />
 
       <div className="absolute inset-0">
-        <img
-          src="/src/assets/images/map.png"
-          alt="Map"
-          className="h-full w-full object-cover"
-        />
+        <LiveTracking />
       </div>
 
       {/* Rider details */}
