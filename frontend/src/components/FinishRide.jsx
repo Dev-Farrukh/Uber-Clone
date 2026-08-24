@@ -16,9 +16,9 @@ const FinishRide = ({ panelStates }) => {
       await apiClient.post("end-ride", {
         rideId: panelStates.ride._id,
       });
+      navigate("/rider", { replace: true });
       panelStates.setFinishRide(false);
       panelStates.setRide(null);
-      navigate("/rider", { replace: true });
     } catch (error) {
       console.error("Error ending ride:", error);
     } finally {
